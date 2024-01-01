@@ -1,7 +1,7 @@
-# wave-converter
+# WIN2PhaseNet
 
 ## Summary 
-Program to make various data for PhaseNet (Zhu and Beroza, 2019) from win waveform file and pick list.
+Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN waveform file and pick list.
 
 ## Output format
 ### 1. **train** mode
@@ -41,12 +41,12 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from win wavefo
 * This program
     * Copy to the local environment by **git clone**
     ```
-    $ git clone https://github.com/RintarohSuzuki/wave-converter.git
+    $ git clone https://github.com/RintarohSuzuki/WIN2PhaseNet.git
     ```
 
-* Event win waveform files
+* Event WIN waveform files
     * format:
-        * 'win' format
+        * 'WIN' format
             * For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
         * **File name should be "Tyymmddhhmmss.dat"**
             * e.g.'T170716192301.dat'
@@ -62,10 +62,10 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from win wavefo
 
         | Column | Description |
         | --- | --- |
-        | `win_name` | the file name of a win waveform file |
+        | `win_name` | the file name of a WIN waveform file |
         | `station` | station code |
-        | `itp` | the data point of **P phase** from the start of each win waveform file |
-        | `its` | the data point of **S phase** from the start of each win waveform file |
+        | `itp` | the data point of **P phase** from the start of each WIN waveform file |
+        | `its` | the data point of **S phase** from the start of each WIN waveform file |
 
         * Sample: picks.csv
     * Put the file at `.`
@@ -74,7 +74,7 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from win wavefo
 * Channel table
     * format:
         * txt format
-            * For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.ja/win.html (only Japanese)
+            * For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.ja/win.html (only in Japanese)
 
     * Put the files at `./etc/stn.tbl`
         * You can change this path by `--chtbl` option
@@ -83,12 +83,12 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from win wavefo
 * This program
     * Copy to the local environment by **git clone**
     ```
-    $ git clone https://github.com/RintarohSuzuki/wave-converter.git
+    $ git clone https://github.com/RintarohSuzuki/WIN2PhaseNet.git
     ```
 
-* Continuous win waveform files
+* Continuous WIN waveform files
     * format:
-        * 'win' format
+        * 'WIN' format
             * For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
         * **File name should be "Tyymmddhhmmss.dat"**
             * e.g.'T170716192301.dat'
@@ -101,7 +101,7 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from win wavefo
 * Channel table
     * format:
         * txt format
-            * For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.ja/win.html (only Japanese)
+            * For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.ja/win.html (only in Japanese)
 
     * Put the files at `./etc/stn.tbl`
         * You can change this path by `--chtbl` option
@@ -143,7 +143,7 @@ Select 1. or 2. accordings to your environments
 # load docker image and run the container
 $ docker-run.bash
 
-# run wave-converter
+# run WIN2PhaseNet
 (container)$ python3 src/win2npz.py --mode {train,test} --list LIST [--indir INDIR] [--outdir OUTDIR]
 # e.g. 
 # 1. python3 src/win2npz.py --mode train --list picks.csv
@@ -160,7 +160,7 @@ $ make clean
 $ make
 $ cd ../..
 
-# run wave-converter
+# run WIN2PhaseNet
 $ python3 src/win2npz.py --mode {train,test} --list LIST [--outdir OUTDIR] [--indir INDIR]
 ```
 
@@ -181,15 +181,15 @@ $ git checkout master model
 * docker image tar file<br>
 Download the docker image tar file ('phasenet-image.tar') from here:<br>
 https://drive.google.com/file/d/1A6JjboZAIoboI-Y8enc-FxnHPiQuofQZ/view?usp=sharing<br>
-Put 'phasenet-image.tar' to `wave-converter/images/` directory.
+Put 'phasenet-image.tar' to `WIN2PhaseNet/images/` directory.
 
 ```
 # load docker image and run the container
-$ cd wave-converter
+$ cd WIN2PhaseNet
 $ docker-run.bash phasenet
 
 # run PhaseNet
-(container)$ python run.py --mode=pred --ckdir=model/190703-214543 --data_dir=<OUTDIR of wave-converter> --data_list=<npz.csv by wave-converter> --output_dir=output --save_result
+(container)$ python run.py --mode=pred --ckdir=model/190703-214543 --data_dir=<OUTDIR of WIN2PhaseNet> --data_list=<npz.csv by WIN2PhaseNet> --output_dir=output --save_result
 ```
 
 ## Acknowledgements
