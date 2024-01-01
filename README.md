@@ -3,7 +3,7 @@
 ## Summary 
 Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN waveform file and pick list.
 
-## Output format
+## What is the output?
 ### 1. **train** mode
 * npz waveform files: [OUTDIR]/[yymmddhhmmss from win_name]_[station].npz
 
@@ -13,7 +13,7 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN wavefo
 | `itp` | file path of Pick list |
 | `its` | directory path of output npz waveform files |
 
-* npz waveform list: ./npz.csv
+* npz waveform list: npz.csv
 
 ### 2. **test** mode
 * npz waveform files: [OUTDIR]/[yymmddhhmmss from win_name]_[station].npz
@@ -24,7 +24,7 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN wavefo
 | `itp` | file path of Pick list |
 | `its` | directory path of output npz waveform files |
 
-* npz waveform list: ./npz.csv
+* npz waveform list: npz.csv
 
 ### 3. **cont** mode
 * npz waveform files: [OUTDIR]/[yymmddhhmmss from win_name]_[station].npz
@@ -33,24 +33,33 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN wavefo
 | --- | --- |
 | `data` | - continuous waveform data of one station <br> - dataShape: **(3000, 3)** # means 30 seconds (100 Hz) / 3 compornent |
 
-* npz waveform list: ./npz.csv
+* npz waveform list: npz.csv
 
-## Requirements
-### 1. Input files
+## How to use
+### 1. Environment preparation
+* OS: any OS on which docker runs
+* docker
+```
+# Installation of docker (e.g. Ubuntu20.04)
+$ sudo apt-get install
+$ sudo apt-get install docker
+$ sudo docker -v # Confirm installation
+```
+* This program: move to any directory (base directory) to clone WIN2PhaseNet
+```
+$ cd <base directory>
+$ git clone https://github.com/rintr-suzuki/WIN2PhaseNet.git
+$ cd WIN2PhaseNet
+```
+
+### 2. Input file preparation
 #### 1. Common for all modes
-* This program
-    * Copy to the local environment by **git clone**
-    ```
-    $ git clone https://github.com/RintarohSuzuki/WIN2PhaseNet.git
-    ```
-
 * Channel table
     * format:
         * txt format
             * For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.ja/win.html (only in Japanese)
 
-    * Put the files at `./etc/stn.tbl`
-        * You can change this path by `--chtbl` option
+    * Put the files at `<base directory>/WIN2PhaseNet/etc/stn.tbl`
 
 #### 2. Only for **train** and **test** mode
 * Event WIN waveform files
@@ -62,8 +71,7 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN wavefo
             * This is used for output file name
         * **Only 100 Hz data is acceptable**
 
-    * Make directry named `./data` and put the files there
-        * You can change this path by `--indir` option
+    * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there
 
 * Pick list
     * format:
@@ -76,8 +84,8 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN wavefo
         | `itp` | the data point of **P phase** from the start of each WIN waveform file |
         | `its` | the data point of **S phase** from the start of each WIN waveform file |
 
-        * Sample: picks.csv
-    * Put the file at `.`
+        * Sample: `<base directory>/WIN2PhaseNet/picks.csv`
+    * Put the file at `<base directory>/WIN2PhaseNet`
     * **Only data from the station with BOTH P phase and S phase is processed**
 
 #### 3. Only for **cont** mode
@@ -90,23 +98,9 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN wavefo
             * This is used for output file name
         * **Only 30 seconds and 100 Hz data is acceptable**
 
-    * Make directry named `./data` and put the files there
-        * You can change this path by `--indir` option
+    * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there
 
-### 2. Environments
-* docker
-* docker image tar file<br>
-Download the docker image tar file ('win2npz-image.tar') from here:<br>
-https://drive.google.com/file/d/13iTKSCtTa3yQEu6uKPZCCk6xVCTpAM0h/view?usp=sharing<br>
-Put 'win2npz-image.tar' to `images/` directory.
-
-* docker image tar file<br>
-Download the docker image tar file ('phasenet-image.tar') from here:<br>
-https://drive.google.com/file/d/1A6JjboZAIoboI-Y8enc-FxnHPiQuofQZ/view?usp=sharing<br>
-Put 'phasenet-image.tar' to `WIN2PhaseNet/images/` directory.
-
-## How to use
-### 1. Pre-setting
+### 3. Configuration of WIN2PhaseNet
 * Set following option according to the situation
 
 | Option | Description |
@@ -117,40 +111,55 @@ Put 'phasenet-image.tar' to `WIN2PhaseNet/images/` directory.
 | `[--indir INDIR]` | directory path of Win waveform files (default: `./data`) |
 | `[--chtbl CHTBL]` | directory path of channel table file (default: `./etc/stn.tbl`) |
 
-### 2. Execute WIN2PhaseNet
+### 4. Execute WIN2PhaseNet
 ```
-# load docker image and run the container
-$ docker-run.bash
+# pull docker image and run the 'win2npz' container
+$ ./docker-run.bash
 
-# run WIN2PhaseNet
+# run WIN2PhaseNet on the container environment
 (container)$ python3 src/win2npz.py --mode {train,test,cont} --list LIST [--indir INDIR] [--outdir OUTDIR]
 # e.g. 
 # (container)$ python3 src/win2npz.py --mode train --list picks.csv
 # (container)$ python3 src/win2npz.py --mode test --list picks.csv
 # (container)$ python3 src/win2npz.py --mode cont
+
+# Exit the container environment after execution is complete
+(container)$ exit
 ```
 
-### 3. Execute PhaseNet prediction
+### 5. Execute PhaseNet prediction
 This program **NOT** contains PhaseNet but show how to use PhaseNet briefly<br>
 Npz data made by **'cont' mode** of WIN2PhaseNet is required in advance
 
 #### Download PhaseNet and model
 ```
+$ cd <base directory> # return to base directory
 $ git clone -b release https://github.com/AI4EPS/PhaseNet.git
+$ cd PhaseNet
 $ git checkout master model
 ```
 
 #### Execute prediction
 ```
-# load docker image and run the container
-$ cd WIN2PhaseNet
-$ docker-run.bash phasenet
+# pull docker image and run the 'phasenet' container
+$ cd <base directory>/WIN2PhaseNet # return to WIN2PhaseNet directory
+$ ./docker-run.bash phasenet
 
-# run PhaseNet
-(container)$ python run.py --mode=pred --ckdir=model/190703-214543 --data_dir=<OUTDIR path of WIN2PhaseNet> --data_list=<npz.csv path of WIN2PhaseNet output> --output_dir=output --save_result
+# run PhaseNet on the container environment
+(container)$ python run.py --mode=pred --ckdir=model/190703-214543 --data_dir=<OUTDIR path of WIN2PhaseNet> --data_list=<npz.csv path of WIN2PhaseNet output> --output_dir=output
 # e.g. 
-# (container)$ python run.py --mode=pred --ckdir=model/190703-214543 --data_dir=../WIN2PhaseNet/out --data_list=../WIN2PhaseNet/npz.csv --output_dir=output --save_result
+# (container)$ python run.py --mode=pred --ckdir=model/190703-214543 --data_dir=../WIN2PhaseNet/out --data_list=../WIN2PhaseNet/npz.csv --output_dir=output
+
+# Exit the container environment after execution is complete
+(container)$ exit
+
+# You can find the output of PhaseNet ('picks.csv') in '<base directory>/PhaseNet/output' directory
 ```
+
+## Notes
+* Each docker image is built from the following Dockerfile
+    * win2npz: dockerfiles/win2npz/Dockerfile
+    * phasenet: dockerfiles/phasenet/Dockerfile
 
 ## Acknowledgements
 A part of this program was created by Uchida, N and Matsuzawa, T.
