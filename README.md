@@ -13,6 +13,8 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN wavefo
 | `data` | - event waveform data of one event / one station <br> - dataShape: **(9000, 3)** # means 90 seconds (100Hz) / 3 compornent <br> - data starts **30 seconds** before of 'itp'|
 | `itp` | file path of Pick list |
 | `its` | directory path of output npz waveform files |
+| `t0` | start time of waveform file |
+| `sta_id` | station code |
 
 * npz waveform list: `npz.csv`
 
@@ -25,6 +27,8 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN wavefo
 | `data` | - event waveform data of one event / one station <br> - dataShape: **(3000, 3)** # means 30 seconds (100Hz) / 3 compornent <br> - data starts **1 seconds** before of 'itp'|
 | `itp` | file path of Pick list |
 | `its` | directory path of output npz waveform files |
+| `t0` | start time of waveform file |
+| `sta_id` | station code |
 
 * npz waveform list: `npz.csv`
 
@@ -35,6 +39,8 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN wavefo
 | Key | Description |
 | --- | --- |
 | `data` | - continuous waveform data of one station <br> - dataShape: **(3000, 3)** # means 30 seconds (100 Hz) / 3 compornent |
+| `t0` | start time of waveform file |
+| `sta_id` | station code |
 
 * npz waveform list: `npz.csv`
 
@@ -69,9 +75,9 @@ $ cd WIN2PhaseNet
     * format:
         * 'WIN' format
             * For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
-        * **File name should be "Tyymmddhhmmss.dat"**
+        * **File name should be "Tyymmddhhmmss.dat" and "yymmddhhmmss" part should be the start time of each WIN waveform file**
             * e.g.'T170716192301.dat'
-            * This is used for output file name
+            * This is used for the name and 't0' of npz waveform file
         * **Only 100 Hz data is acceptable**
 
     * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there
@@ -96,9 +102,9 @@ $ cd WIN2PhaseNet
     * format:
         * 'WIN' format
             * For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
-        * **File name should be "Tyymmddhhmmss.dat"**
+        * **File name should be "Tyymmddhhmmss.dat" and "yymmddhhmmss" part should be the start time of each WIN waveform file**
             * e.g.'T170716192301.dat'
-            * This is used for output file name
+            * This is used for the name and 't0' of npz waveform file
         * **Only 30 seconds and 100 Hz data is acceptable**
 
     * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there
@@ -141,7 +147,7 @@ Npz data made by **'cont' mode** of WIN2PhaseNet is required in advance
 $ cd <base directory> # return to base directory
 $ git clone -b release https://github.com/AI4EPS/PhaseNet.git
 $ cd PhaseNet
-$ git checkout -b DOI refs/tags/DOI
+$ git checkout -b v1.2 f119e28
 ```
 
 #### Execute prediction
@@ -158,7 +164,7 @@ $ ./docker-run.bash phasenet
 # Exit the container environment after execution is complete
 (container)$ exit
 
-# You can find the output of PhaseNet ('picks.csv') in '<base directory>/PhaseNet/results' directory
+# You can find the output of PhaseNet in '<base directory>/PhaseNet/results' directory
 ```
 
 ## Notes
