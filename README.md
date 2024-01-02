@@ -50,7 +50,7 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN wavefo
 * docker
 ```
 # Installation of docker (e.g. Ubuntu20.04)
-$ sudo apt-get install
+$ sudo apt-get update
 $ sudo apt-get install docker
 $ sudo docker -v # Confirm installation
 ```
