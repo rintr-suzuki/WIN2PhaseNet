@@ -92,13 +92,6 @@ class NpzConverter(Converter):
         ## needs fortran ##
         proc = sp.run(com, shell=True, stdout = sp.PIPE, stderr = sp.STDOUT) #be careful for shell injection!!
         out = proc.stdout.decode("utf8")
-        outfilesOrgNames = glob.glob(os.path.join(self._outdir, '*' + '.npz'))
-        # ファイル名がwin2npz.xで変わってしまうので、修正する
-        for outfilesOrgName in outfilesOrgNames:
-            outfilesDir = os.path.dirname(outfilesOrgName)
-            outfilesBase = filetime + '_' + os.path.basename(outfilesOrgName).rstrip('.npz').split('_')[1] + '.npz'
-            outfilesName = os.path.join(outfilesDir, outfilesBase)
-            os.rename(outfilesOrgName, outfilesName)
         print("[NpzConverter.to_npz]: win2npz.x", out)
         ##############
 
