@@ -3,6 +3,7 @@ import glob
 import numpy as np
 import pandas as pd
 import subprocess as sp
+import datetime
 
 from util import count_non_nan, load_csv
 from model import WinWavedata, NpzStationWavedata
@@ -86,7 +87,7 @@ class NpzConverter(Converter):
             com = com + ' -f %s' % self._filprm
         print("[NpzConverter.to_npz]:", com)
 
-        filetime = self._wavedata.baseFname.lstrip('T').rstrip('.dat')
+        filetime = self._wavedata.filetime
 
         ## needs fortran ##
         proc = sp.run(com, shell=True, stdout = sp.PIPE, stderr = sp.STDOUT) #be careful for shell injection!!
@@ -141,18 +142,23 @@ class NpzStationProcessor(NpzProcessor):
     def cut_wave(self, mode):
         npzdata = self._wavedata.npzdata
         stnlist = npzdata.keys()
+
+        t0_dt = self._wavedata.t0_dt
         itp = self._wavedata.itp
         its = self._wavedata.its
 
         # calc cut point and revise itp and its
-        #波形を切り出した場合、itp, itsの時間がずれるので、startの時間に併せて補正
+        #波形を切り出した場合、t0, itp, itsの時間がずれるので、startの時間に併せて補正
         if mode == "test":
             bf_p = 100; length = 3000
         elif mode == "train":
             bf_p = 3000; length = 9000
         else:
             print("[Error: mode is invalid]:", mode, "mode should be 'train' or 'test'")
+        # t0
+        self._wavedata.t0_dt = t0_dt - datetime.timedelta(milliseconds=bf_p)
 
+        # itp, its
         flag = {}; skip = {}; start = {}; end = {}; itp1 = {}; its1 = {}
         for stn in stnlist:
             skip[stn] = []
@@ -198,14 +204,15 @@ class NpzStationProcessor(NpzProcessor):
         npzdata = self._wavedata.npzdata
         stnlist = npzdata.keys()
 
+        filetime = self._wavedata.filetime
+        t0 = self._wavedata.t0
+
         if mode == 'cont':
             # train, test モードではprocessflag=Trueのものだけ変換する
             # cont モードでは全て変換する
             for stn in stnlist:
                 self._wavedata.processflag[stn] = True        
         flag = self._wavedata.processflag
-
-        filetime = self._wavedata.baseFname.lstrip('T').rstrip('.dat')
 
         for stn in stnlist:
             if flag[stn]:      
@@ -215,10 +222,10 @@ class NpzStationProcessor(NpzProcessor):
                 self._wavedata.outFname[stn] = out_fname
 
                 if (mode == 'train') or (mode == 'test'):
-                    np.savez(out_fname, data=self._wavedata.npzdata[stn], itp=self._wavedata.itp[stn], its=self._wavedata.its[stn], channels=self._wavedata.channel)
+                    np.savez(out_fname, data=self._wavedata.npzdata[stn], itp=self._wavedata.itp[stn], its=self._wavedata.its[stn], channels=self._wavedata.channel, sta_id=stn, t0=t0)
 
                 elif mode == 'cont':
-                    np.savez(out_fname, data=self._wavedata.npzdata[stn])
+                    np.savez(out_fname, data=self._wavedata.npzdata[stn], sta_id=stn, t0=t0)
 
                 print("[NpzProcessor.to_npz]:", out_fname)
 

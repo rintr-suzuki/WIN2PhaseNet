@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import datetime
 
 from util import load_npz
 
@@ -9,6 +10,10 @@ class Wavedata(object):
         self._baseFname = os.path.basename(fname)
         self._outFname = None
 
+        self._filetime = self._baseFname.lstrip('T').rstrip('.dat')
+        self._t0_dt = datetime.datetime.strptime(self._filetime, "%y%m%d%H%M%S")
+        self._t0 = self._t0_dt.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
+
     @property
     def fname(self):
         return self._fname
@@ -16,6 +21,23 @@ class Wavedata(object):
     @property
     def baseFname(self):
         return self._baseFname
+
+    @property
+    def filetime(self):
+        return self._filetime
+
+    @property
+    def t0_dt(self):
+        return self._t0_dt
+
+    @property
+    def t0(self):
+        return self._t0
+    
+    @t0.setter
+    def t0_dt(self, t0_dt):
+        self._t0_dt = t0_dt
+        self._t0 = self._t0_dt.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
 
 class WinWavedata(Wavedata):
     def __init__(self, fname):
