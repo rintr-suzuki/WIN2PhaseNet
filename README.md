@@ -80,7 +80,7 @@ $ cd WIN2PhaseNet
         * **File name should contain the start time strings of each WIN waveform file**
             * e.g.'T170716192301.dat'
             * File name is used for the file name and 't0' of npz waveform file
-        * **Only 100 Hz data is acceptable**
+        * **Only >=180 seconds and 100 Hz data is acceptable**
 
     * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there
 
@@ -107,7 +107,7 @@ $ cd WIN2PhaseNet
         * **File name should contain the start time strings of each WIN waveform file**
             * e.g.'T170716192301.dat'
             * File name is used for the file name and 't0' of npz waveform file
-        * **Only 30 seconds and 100 Hz data is acceptable**
+        * **Only >=30 seconds and 100 Hz data is acceptable**
 
     * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there
 

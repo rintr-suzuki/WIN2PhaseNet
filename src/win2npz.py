@@ -17,15 +17,13 @@ def read_args():
    parser.add_argument('--list')
    parser.add_argument('--indir', default='data')
    parser.add_argument('--name_format', default='T%y%m%d%H%M%S.dat')
+   parser.add_argument('--input_length', default=180, help='original length of win waveform')
 
    # output information
    parser.add_argument('--outdir', default='out')
 
    # station list for conversion
    parser.add_argument('--stnlst', default='etc/stn.lst', help='station list')
-
-   # 
-   parser.add_argument('--length', default=180, help='original length of win waveform')
 
    # channel table of station code
    parser.add_argument('--chtbl', default='etc/stn.tbl', help='channel table')
@@ -54,7 +52,7 @@ def main(args):
 
       ## set length to 30 second for cont mode
       if args['mode'] == 'cont':
-         args['length'] = 30
+         args['input_length'] = 30
 
       ## set input files
       indir = args['indir']

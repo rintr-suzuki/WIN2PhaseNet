@@ -51,7 +51,7 @@ class NpzConverter(Converter):
         self._stnlst = each_stnlst
         self._stations = each_stnlst_list
         self._chtbl = params['chtbl']
-        self._length = params['length']
+        self._input_length = params['input_length']
 
         self._rotation = params['rotation']
         self._filter = params['filter']
@@ -80,7 +80,7 @@ class NpzConverter(Converter):
             + ' -s %s' % self._stnlst \
             + ' -k %s' % self._chtbl \
             + ' -d %s' % self._outdir \
-            + ' -t %s' % self._length
+            + ' -t %s' % self._input_length
         if self._rotation:
             com = com + ' -r %s' % self._rottbl
         if self._filter:
