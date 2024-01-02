@@ -5,7 +5,8 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN wavefo
 
 ## What is the output?
 ### 1. **train** mode
-* npz waveform files: [OUTDIR]/[yymmddhhmmss from win_name]_[station].npz
+* npz waveform files: `npz/[datetime]_[station].npz`
+    * datetime: Date and time from win_name (format: yymmddhhmmss)
 
 | Key | Description |
 | --- | --- |
@@ -13,10 +14,11 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN wavefo
 | `itp` | file path of Pick list |
 | `its` | directory path of output npz waveform files |
 
-* npz waveform list: npz.csv
+* npz waveform list: `npz.csv`
 
 ### 2. **test** mode
-* npz waveform files: [OUTDIR]/[yymmddhhmmss from win_name]_[station].npz
+* npz waveform files: `npz/[datetime]_[station].npz`
+    * datetime: Date and time from win_name (format: yymmddhhmmss)
 
 | Key | Description |
 | --- | --- |
@@ -24,16 +26,17 @@ Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN wavefo
 | `itp` | file path of Pick list |
 | `its` | directory path of output npz waveform files |
 
-* npz waveform list: npz.csv
+* npz waveform list: `npz.csv`
 
 ### 3. **cont** mode
-* npz waveform files: [OUTDIR]/[yymmddhhmmss from win_name]_[station].npz
+* npz waveform files: `npz/[datetime]_[station].npz`
+    * datetime: Date and time from win_name (format: yymmddhhmmss)
 
 | Key | Description |
 | --- | --- |
 | `data` | - continuous waveform data of one station <br> - dataShape: **(3000, 3)** # means 30 seconds (100 Hz) / 3 compornent |
 
-* npz waveform list: npz.csv
+* npz waveform list: `npz.csv`
 
 ## How to use
 ### 1. Environment preparation
@@ -107,8 +110,8 @@ $ cd WIN2PhaseNet
 | --- | --- |
 | `--mode {train,test,cont}` | specify the mode (see 'Output format' for the detailed infomation) |
 | `--list LIST` | file path of Pick list (Required only for **train** and **test** mode) |
-| `[--outdir OUTDIR]` | directory path of output npz waveform files (default: `./out`) |
-| `[--indir INDIR]` | directory path of Win waveform files (default: `./data`) |
+| `[--outdir OUTDIR]` | directory path of output files (default: `./out`) |
+| `[--indir INDIR]` | directory path of WIN waveform files (default: `./data`) |
 | `[--chtbl CHTBL]` | directory path of channel table file (default: `./etc/stn.tbl`) |
 
 ### 4. Execute WIN2PhaseNet
@@ -125,6 +128,8 @@ $ ./docker-run.bash
 
 # Exit the container environment after execution is complete
 (container)$ exit
+
+# You can find the output of WIN2PhaseNet in '<base directory>/WIN2PhaseNet/<OUTDIR>' directory
 ```
 
 ### 5. Execute PhaseNet prediction
@@ -146,9 +151,9 @@ $ cd <base directory>/WIN2PhaseNet # return to WIN2PhaseNet directory
 $ ./docker-run.bash phasenet
 
 # run PhaseNet on the container environment
-(container)$ python run.py --mode=pred --ckdir=model/190703-214543 --data_dir=<OUTDIR path of WIN2PhaseNet> --data_list=<npz.csv path of WIN2PhaseNet output> --output_dir=output
+(container)$ python run.py --mode=pred --ckdir=model/190703-214543 --data_dir=<npz waveform files path of WIN2PhaseNet> --data_list=<npz.csv path of WIN2PhaseNet> --output_dir=output
 # e.g. 
-# (container)$ python run.py --mode=pred --ckdir=model/190703-214543 --data_dir=../WIN2PhaseNet/out --data_list=../WIN2PhaseNet/npz.csv --output_dir=output
+# (container)$ python run.py --mode=pred --ckdir=model/190703-214543 --data_dir=../WIN2PhaseNet/out/npz --data_list=../WIN2PhaseNet/out/npz.csv --output_dir=output
 
 # Exit the container environment after execution is complete
 (container)$ exit

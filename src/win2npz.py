@@ -71,9 +71,9 @@ def main(args):
          outdict[fname] = {'npzlist': npzConverter.outfiles, 'stnlist': npzConverter.stations}
 
       # add itp and its info to npz & make cut npz according to itp and its
-      outdir = args['outdir']
+      outdir = os.path.join(args['outdir'], "npz")
       
-      outcsv = []
+      outcsv_list = []
       for fname in files:
          npzProcessor = NpzStationProcessor(fname, indir, outdir, args, outdict[fname])
          if (args['mode'] == 'train') or (args['mode'] == 'test'):
@@ -81,11 +81,12 @@ def main(args):
             npzProcessor.cut_wave(args['mode'])
          npzProcessor.to_npz(args['mode'])
          df = npzProcessor.make_list(args['list'], args['mode'])
-         outcsv.append(df)
+         outcsv_list.append(df)
       
       # make data list
-      df = pd.concat(outcsv)
-      df.to_csv("npz.csv", index=None)
+      df = pd.concat(outcsv_list)
+      outcsv = os.path.join(args['outdir'], "npz.csv")
+      df.to_csv(outcsv, index=None)
 
       # remove tmp file
       for file in glob.glob(stndir + "/*.lst"):
