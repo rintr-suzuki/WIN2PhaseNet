@@ -1,5 +1,5 @@
 #image指定
-FROM python:3.7
+FROM python:3.6
 
 # pythonのライブラリをインストールする
 WORKDIR /usr/local/src/

@@ -141,7 +141,7 @@ Npz data made by **'cont' mode** of WIN2PhaseNet is required in advance
 $ cd <base directory> # return to base directory
 $ git clone -b release https://github.com/AI4EPS/PhaseNet.git
 $ cd PhaseNet
-$ git checkout master model
+$ git checkout -b DOI refs/tags/DOI
 ```
 
 #### Execute prediction
@@ -151,14 +151,14 @@ $ cd <base directory>/WIN2PhaseNet # return to WIN2PhaseNet directory
 $ ./docker-run.bash phasenet
 
 # run PhaseNet on the container environment
-(container)$ python run.py --mode=pred --ckdir=model/190703-214543 --data_dir=<npz waveform files path of WIN2PhaseNet> --data_list=<npz.csv path of WIN2PhaseNet> --output_dir=output
+(container)$ python phasenet/predict.py --model_dir=model/190703-214543 --data_dir=<npz waveform files path of WIN2PhaseNet> --data_list=<npz.csv path of WIN2PhaseNet> --amplitude
 # e.g. 
-# (container)$ python run.py --mode=pred --ckdir=model/190703-214543 --data_dir=../WIN2PhaseNet/out/npz --data_list=../WIN2PhaseNet/out/npz.csv --output_dir=output
+# (container)$ python phasenet/predict.py --model_dir=model/190703-214543 --data_dir=../WIN2PhaseNet/out/npz --data_list=../WIN2PhaseNet/out/npz.csv --amplitude
 
 # Exit the container environment after execution is complete
 (container)$ exit
 
-# You can find the output of PhaseNet ('picks.csv') in '<base directory>/PhaseNet/output' directory
+# You can find the output of PhaseNet ('picks.csv') in '<base directory>/PhaseNet/results' directory
 ```
 
 ## Notes
