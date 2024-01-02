@@ -2,15 +2,15 @@ import numpy as np
 import os
 import datetime
 
-from util import load_npz
+from util import load_npz, read_wavename
 
 class Wavedata(object):
-    def __init__(self, fname):
+    def __init__(self, fname, name_format):
         self._fname = fname
         self._baseFname = os.path.basename(fname)
         self._outFname = None
 
-        self._filetime = self._baseFname.lstrip('T').rstrip('.dat')
+        self._filetime = read_wavename(self._baseFname, name_format)
         self._t0_dt = datetime.datetime.strptime(self._filetime, "%y%m%d%H%M%S")
         self._t0 = self._t0_dt.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
 
@@ -40,12 +40,12 @@ class Wavedata(object):
         self._t0 = self._t0_dt.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
 
 class WinWavedata(Wavedata):
-    def __init__(self, fname):
-        super().__init__(fname)
+    def __init__(self, fname, name_format):
+        super().__init__(fname, name_format)
 
 class NpzWavedata(Wavedata):
-    def __init__(self, fname):
-        super().__init__(fname)
+    def __init__(self, fname, name_format):
+        super().__init__(fname, name_format)
         self._npzdata = {}
         self._outFname = {}
         self._itp = {}
@@ -97,8 +97,8 @@ class NpzWavedata(Wavedata):
             self._its[key] = value
 
 class NpzStationWavedata(NpzWavedata):
-    def __init__(self, fname, npzinfo):
-        super().__init__(fname)
+    def __init__(self, fname, npzinfo, name_format):
+        super().__init__(fname, name_format)
 
         npzdict = {}
         stnlist = npzinfo['stnlist']

@@ -75,9 +75,9 @@ $ cd WIN2PhaseNet
     * format:
         * 'WIN' format
             * For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
-        * **File name should be "Tyymmddhhmmss.dat" and "yymmddhhmmss" part should be the start time of each WIN waveform file**
+        * **File name should contain the start time strings of each WIN waveform file**
             * e.g.'T170716192301.dat'
-            * This is used for the name and 't0' of npz waveform file
+            * File name is used for the file name and 't0' of npz waveform file
         * **Only 100 Hz data is acceptable**
 
     * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there
@@ -102,9 +102,9 @@ $ cd WIN2PhaseNet
     * format:
         * 'WIN' format
             * For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
-        * **File name should be "Tyymmddhhmmss.dat" and "yymmddhhmmss" part should be the start time of each WIN waveform file**
+        * **File name should contain the start time strings of each WIN waveform file**
             * e.g.'T170716192301.dat'
-            * This is used for the name and 't0' of npz waveform file
+            * File name is used for the file name and 't0' of npz waveform file
         * **Only 30 seconds and 100 Hz data is acceptable**
 
     * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there
@@ -116,6 +116,7 @@ $ cd WIN2PhaseNet
 | --- | --- |
 | `--mode {train,test,cont}` | specify the mode (see 'Output format' for the detailed infomation) |
 | `--list LIST` | file path of Pick list (Required only for **train** and **test** mode) |
+| `[--NAME_FORMAT name_format]` | file name format of WIN waveform files, based on 'datetime' library (default: `T%y%m%d%H%M%S.dat`) <br> for the detailed information, see https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes |
 | `[--outdir OUTDIR]` | directory path of output files (default: `./out`) |
 | `[--indir INDIR]` | directory path of WIN waveform files (default: `./data`) |
 | `[--chtbl CHTBL]` | directory path of channel table file (default: `./etc/stn.tbl`) |

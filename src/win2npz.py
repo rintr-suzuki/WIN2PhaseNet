@@ -16,6 +16,7 @@ def read_args():
    # input information
    parser.add_argument('--list')
    parser.add_argument('--indir', default='data')
+   parser.add_argument('--name_format', default='T%y%m%d%H%M%S.dat')
 
    # output information
    parser.add_argument('--outdir', default='out')

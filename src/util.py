@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import datetime
 
 def count_non_nan(data):
     is_nan_data = np.array(list(map(np.isnan, data)))
@@ -34,3 +35,8 @@ def load_csv(fname, header='infer'):
                 break
 
     return df
+
+def read_wavename(baseFname, format):
+    filetime = datetime.datetime.strptime(baseFname, format).strftime("%y%m%d%H%M%S")
+    # print(baseFname, format, filetime)
+    return filetime

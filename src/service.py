@@ -24,7 +24,7 @@ class Converter(object):
 class NpzConverter(Converter):
     def __init__(self, fname, indir, outdir, stndir, listname, params):
         super().__init__(fname, indir, outdir, params)
-        self._wavedata = WinWavedata(fname)
+        self._wavedata = WinWavedata(fname, params['name_format'])
         
         # make station list for each event
         fname = self._wavedata.fname; baseFname = self._wavedata.baseFname; stnlst = params['stnlst']
@@ -123,7 +123,7 @@ class NpzProcessor(Converter):
 class NpzStationProcessor(NpzProcessor):
     def __init__(self, fname, indir, outdir, params, npzinfo):
         super().__init__(fname, indir, outdir, params)
-        self._wavedata = NpzStationWavedata(fname, npzinfo) #stations, outfiles->npzdataとして格納
+        self._wavedata = NpzStationWavedata(fname, npzinfo, params['name_format']) #stations, outfiles->npzdataとして格納
 
         print("[NpzProcessor.__init__]:", self._wavedata.baseFname, "stations:", len(self._wavedata.npzdata.keys()))
 
