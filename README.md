@@ -127,7 +127,7 @@ $ cd WIN2PhaseNet
 $ ./docker-run.bash
 
 # run WIN2PhaseNet on the container environment
-(container)$ python3 src/win2npz.py --mode {train,test,cont} --list LIST [--indir INDIR] [--outdir OUTDIR]
+(container)$ python3 src/win2npz.py --mode {train,test,cont} --list LIST [--NAME_FORMAT name_format] [--indir INDIR] [--outdir OUTDIR]
 # e.g. 
 # (container)$ python3 src/win2npz.py --mode train --list picks.csv
 # (container)$ python3 src/win2npz.py --mode test --list picks.csv
