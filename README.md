@@ -2,7 +2,8 @@
 
 ## Summary 
 * Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN waveform file and pick list.
-* High-speed processing is possible through the use of fortran.
+* Easy to run on various OS by **docker**.
+* High-speed processing is possible through the use of **fortran**.
 
 ## What is the output?
 ### 1. **train** mode
