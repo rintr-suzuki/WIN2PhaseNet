@@ -113,9 +113,9 @@ $ cd WIN2PhaseNet
     | --- | --- |
     | `--mode {train,test,cont}` | specify the mode (see 'Output format' for the detailed infomation) |
     | `--list LIST` | file path of pick list (Required only for **train** and **test** mode) |
+    | `[--indir INDIR]` | path of input directory for WIN waveform files (default: `./data`) |
     | `[--outdir OUTDIR]` | path of output directory (default: `./out`) |
     | `[--output_length OUTPUT_LENGTH]` | length of output npz waveform (unit: second, default: `60`, valid only for **cont** mode) |
-    | `[--indir INDIR]` | path of input directory for WIN waveform files (default: `./data`) |
     | `[--stnlst STNLST]` | path of station list file (default: `./etc/stn.lst`) |
     | `[--chtbl CHTBL]` | path of channel table file (default: `./etc/stn.tbl`) |
 
@@ -125,7 +125,7 @@ $ cd WIN2PhaseNet
 $ ./docker-run.bash
 
 # run WIN2PhaseNet on the container environment
-(container)$ python3 src/win2npz.py --mode {train,test,cont} --list LIST [--indir INDIR] [--outdir OUTDIR]
+(container)$ python3 src/win2npz.py --mode {train,test,cont} --list LIST [--indir INDIR] [--outdir OUTDIR] [--output_length OUTPUT_LENGTH] [--stnlst STNLST] [--chtbl CHTBL]
 # e.g. 
 # (container)$ python3 src/win2npz.py --mode train --list picks.csv
 # (container)$ python3 src/win2npz.py --mode test --list picks.csv
@@ -139,7 +139,7 @@ $ ./docker-run.bash
 
 ### 5. Execute PhaseNet prediction
 This program **NOT** contains PhaseNet but show how to use PhaseNet briefly<br>
-Npz data made by **'cont' mode** of WIN2PhaseNet is required in advance
+"npz waveform files" and "npz waveform list" made by **'cont' mode** of WIN2PhaseNet are required in advance
 
 #### Download PhaseNet
 ```
@@ -156,7 +156,7 @@ $ cd <base directory>/WIN2PhaseNet # return to WIN2PhaseNet directory
 $ ./docker-run.bash phasenet
 
 # run PhaseNet on the container environment
-(container)$ python phasenet/predict.py --model_dir=model/190703-214543 --data_dir=<npz waveform files path of WIN2PhaseNet> --data_list=<npz.csv path of WIN2PhaseNet> --amplitude
+(container)$ python phasenet/predict.py --model_dir=model/190703-214543 --data_dir=<"npz waveform files" directory path of WIN2PhaseNet> --data_list=<"npz waveform list" path of WIN2PhaseNet> --amplitude
 # e.g. 
 # (container)$ python phasenet/predict.py --model_dir=model/190703-214543 --data_dir=../WIN2PhaseNet/out/npz --data_list=../WIN2PhaseNet/out/npz.csv --amplitude
 
