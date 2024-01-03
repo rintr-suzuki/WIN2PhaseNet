@@ -66,7 +66,6 @@ $ cd WIN2PhaseNet
 * Channel table
     * format: txt format <br>
       For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.ja/win.html (only in Japanese)
-
     * Put the files at `<base directory>/WIN2PhaseNet/etc/stn.tbl`
 
 #### 2. Only for **train** and **test** mode
@@ -78,7 +77,7 @@ $ cd WIN2PhaseNet
 
 * Pick list
     * format: csv format
-
+    
         | Column | Description |
         | --- | --- |
         | `win_name` | the file name of a WIN waveform file |
