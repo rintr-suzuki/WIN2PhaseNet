@@ -7,7 +7,7 @@
 * Provides simplified operating procedure for PhaseNet and a docker environment to run PhaseNet.
 
 ## What is the output?
-### 1. **cont** mode
+### 1. `cont` mode
 * npz waveform files: `npz/[datetime]_[station].npz` *1
 
     | Key | Description |
@@ -18,7 +18,7 @@
 
 * npz waveform list: `npz.csv`
 
-### 2. **train** mode
+### 2. `train` mode
 * npz waveform files: `npz/[datetime]_[station].npz` *1
 
     | Key | Description |
@@ -31,7 +31,7 @@
 
 * npz waveform list: `npz.csv`
 
-### 3. **test** mode
+### 3. `test` mode
 * npz waveform files: `npz/[datetime]_[station].npz` *1
 
     | Key | Description |
@@ -76,7 +76,7 @@ $ cd WIN2PhaseNet
     * Put the file as `<base directory>/WIN2PhaseNet/etc/stn.tbl` <br>
       You can change the path with `--chtbl` option
 
-#### 2. Only for **cont** mode
+#### 2. Only for `cont` mode
 * Continuous WIN waveform files
     * format: 'WIN' format <br>
       For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
@@ -84,7 +84,7 @@ $ cd WIN2PhaseNet
     * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there <br>
       You can change the path with `--indir` option
 
-#### 3. Only for **train** and **test** mode
+#### 3. Only for `train` and `test` mode
 * Event WIN waveform files
     * format: 'WIN' format <br>
       For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
@@ -111,7 +111,7 @@ $ cd WIN2PhaseNet
 
     | Option | Description |
     | --- | --- |
-    | `--mode {cont,train,test}` | specify the mode (see 'Output format' for the detailed infomation) |
+    | `--mode {cont,train,test}` | specify the mode (see 'What is the output?' for the detailed infomation) |
     | `--list LIST` | file path of pick list (Required only for **train** and **test** mode) |
     | `[--indir INDIR]` | path of input directory for WIN waveform files (default: `data`) |
     | `[--outdir OUTDIR]` | path of output directory (default: `out`) |
@@ -139,7 +139,7 @@ $ ./docker-run.bash
 
 ### 5. Execute PhaseNet prediction
 This program **NOT** contains PhaseNet but show how to use PhaseNet briefly<br>
-"npz waveform files" and "npz waveform list" made by **'cont' mode** of WIN2PhaseNet are required in advance
+"npz waveform files" and "npz waveform list" made by `cont` mode of WIN2PhaseNet are required in advance
 
 #### Download PhaseNet
 ```
@@ -171,8 +171,8 @@ $ ./docker-run.bash phasenet
   **station**: same information as `sta_id`
 
 * *2 The following data is filled with 0
-    * Lack part when the data length of the input WIN waveform is **less than the specified length (train, test: 180 seconds, cont: [OUTPUT_LENGTH (default: 60)] seconds)**
-    * Remainder when the data length of the input WIN waveform is **not divisible by [OUTPUT_LENGTH (default: 60)] seconds**
+    * Lack part when the data length of the input WIN waveform is **less than the specified length (`cont`: [OUTPUT_LENGTH (default: 60)] seconds, `train`, `test`: 180 seconds)**
+    * Remainder when the data length of the input WIN waveform is **not divisible by [OUTPUT_LENGTH (default: 60)] seconds** (only `cont` mode)
 
 * *3 Each docker image is built from the following Dockerfile
     * win2npz: dockerfiles/win2npz/Dockerfile
