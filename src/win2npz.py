@@ -11,7 +11,7 @@ def read_args():
    parser = argparse.ArgumentParser()
 
    # mode information
-   parser.add_argument('--mode', choices=['train', 'test', 'cont'], required=True)
+   parser.add_argument('--mode', choices=['cont', 'train', 'test'], required=True)
    
    # input information
    parser.add_argument('--list')

@@ -4,41 +4,41 @@
 * Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN waveform file and pick list.
 * High-speed processing is possible through the use of **fortran**.
 * Easy to run on various OS by using **docker**.
-* Provides simplified operating procedure for PhaseNet and a docker environment to run PhaseNet
+* Provides simplified operating procedure for PhaseNet and a docker environment to run PhaseNet.
 
 ## What is the output?
-### 1. **train** mode
-* npz waveform files: `npz/[datetime]_[station].npz` *1
-
-    | Key | Description |
-    | --- | --- |
-    | `data` | - event waveform data of one event / one station <br> - dataShape: **(9000, 3)** # means 90 seconds (100Hz) / 3 compornent <br> - data starts **30 seconds** before of `itp` |
-    | `itp` | file path of Pick list |
-    | `its` | directory path of output npz waveform files |
-    | `t0` | start time of waveform file |
-    | `sta_id` | station code |
-
-* npz waveform list: `npz.csv`
-
-### 2. **test** mode
-* npz waveform files: `npz/[datetime]_[station].npz` *1
-
-    | Key | Description |
-    | --- | --- |
-    | `data` | - event waveform data of one event / one station <br> - dataShape: **(3000, 3)** # means 30 seconds (100Hz) / 3 compornent <br> - data starts **1 seconds** before of `itp` |
-    | `itp` | file path of Pick list |
-    | `its` | directory path of output npz waveform files |
-    | `t0` | start time of waveform file |
-    | `sta_id` | station code |
-
-* npz waveform list: `npz.csv`
-
-### 3. **cont** mode
+### 1. **cont** mode
 * npz waveform files: `npz/[datetime]_[station].npz` *1
 
     | Key | Description |
     | --- | --- |
     | `data` | - continuous waveform data of one station <br> - dataShape: **(6000, 3)** # means 60 seconds (100 Hz) / 3 compornent <br> - you can change data length with `--output_length` option |
+    | `t0` | start time of waveform file |
+    | `sta_id` | station code |
+
+* npz waveform list: `npz.csv`
+
+### 2. **train** mode
+* npz waveform files: `npz/[datetime]_[station].npz` *1
+
+    | Key | Description |
+    | --- | --- |
+    | `data` | - event waveform data of one event / one station <br> - dataShape: **(9000, 3)** # means 90 seconds (100Hz) / 3 compornent <br> - data starts **30 seconds** before of `itp` |
+    | `itp` | the data point of **P phase** from the start of each npz waveform file |
+    | `its` | the data point of **S phase** from the start of each npz waveform file |
+    | `t0` | start time of waveform file |
+    | `sta_id` | station code |
+
+* npz waveform list: `npz.csv`
+
+### 3. **test** mode
+* npz waveform files: `npz/[datetime]_[station].npz` *1
+
+    | Key | Description |
+    | --- | --- |
+    | `data` | - event waveform data of one event / one station <br> - dataShape: **(3000, 3)** # means 30 seconds (100Hz) / 3 compornent <br> - data starts **1 seconds** before of `itp` |
+    | `itp` | the data point of **P phase** from the start of each npz waveform file |
+    | `its` | the data point of **S phase** from the start of each npz waveform file |
     | `t0` | start time of waveform file |
     | `sta_id` | station code |
 
@@ -76,7 +76,15 @@ $ cd WIN2PhaseNet
     * Put the file as `<base directory>/WIN2PhaseNet/etc/stn.tbl` <br>
       You can change the path with `--chtbl` option
 
-#### 2. Only for **train** and **test** mode
+#### 2. Only for **cont** mode
+* Continuous WIN waveform files
+    * format: 'WIN' format <br>
+      For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
+    * **Only >=[OUTPUT_LENGTH (default: 60)] seconds and 100 Hz data is acceptable** *2
+    * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there <br>
+      You can change the path with `--indir` option
+
+#### 3. Only for **train** and **test** mode
 * Event WIN waveform files
     * format: 'WIN' format <br>
       For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
@@ -98,20 +106,12 @@ $ cd WIN2PhaseNet
     * **Only data from the station with BOTH P phase and S phase is processed**
     * Sample: `<base directory>/WIN2PhaseNet/picks.csv`
 
-#### 3. Only for **cont** mode
-* Continuous WIN waveform files
-    * format: 'WIN' format <br>
-      For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
-    * **Only >=[OUTPUT_LENGTH (default: 60)] seconds and 100 Hz data is acceptable** *2
-    * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there <br>
-      You can change the path with `--indir` option
-
 ### 3. Configuration of WIN2PhaseNet
 * Set following option according to the situation
 
     | Option | Description |
     | --- | --- |
-    | `--mode {train,test,cont}` | specify the mode (see 'Output format' for the detailed infomation) |
+    | `--mode {cont,train,test}` | specify the mode (see 'Output format' for the detailed infomation) |
     | `--list LIST` | file path of pick list (Required only for **train** and **test** mode) |
     | `[--indir INDIR]` | path of input directory for WIN waveform files (default: `./data`) |
     | `[--outdir OUTDIR]` | path of output directory (default: `./out`) |
@@ -125,11 +125,11 @@ $ cd WIN2PhaseNet
 $ ./docker-run.bash
 
 # run WIN2PhaseNet on the container environment
-(container)$ python3 src/win2npz.py --mode {train,test,cont} --list LIST [--indir INDIR] [--outdir OUTDIR] [--output_length OUTPUT_LENGTH] [--stnlst STNLST] [--chtbl CHTBL]
+(container)$ python3 src/win2npz.py --mode {cont,train,test} --list LIST [--indir INDIR] [--outdir OUTDIR] [--output_length OUTPUT_LENGTH] [--stnlst STNLST] [--chtbl CHTBL]
 # e.g. 
+# (container)$ python3 src/win2npz.py --mode cont
 # (container)$ python3 src/win2npz.py --mode train --list picks.csv
 # (container)$ python3 src/win2npz.py --mode test --list picks.csv
-# (container)$ python3 src/win2npz.py --mode cont
 
 # Exit the container environment after execution is complete
 (container)$ exit
