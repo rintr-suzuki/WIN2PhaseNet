@@ -35,8 +35,3 @@ def load_csv(fname, header='infer'):
                 break
 
     return df
-
-def read_wavename(baseFname, format):
-    filetime = datetime.datetime.strptime(baseFname, format).strftime("%y%m%d%H%M%S")
-    # print(baseFname, format, filetime)
-    return filetime

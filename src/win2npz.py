@@ -16,7 +16,6 @@ def read_args():
    # input information
    parser.add_argument('--list')
    parser.add_argument('--indir', default='data')
-   parser.add_argument('--name_format', default='T%y%m%d%H%M%S.dat')
    parser.add_argument('--input_length', default=180, help='original length of win waveform')
 
    # output information
@@ -74,13 +73,21 @@ def main(args):
       
       outcsv_list = []
       for fname in files:
-         npzProcessor = NpzStationProcessor(fname, indir, outdir, args, outdict[fname])
-         if (args['mode'] == 'train') or (args['mode'] == 'test'):
-            npzProcessor.set_time(args['list'])
-            npzProcessor.cut_wave(args['mode'])
-         npzProcessor.to_npz(args['mode'])
-         df = npzProcessor.make_list(args['list'], args['mode'])
-         outcsv_list.append(df)
+         for filetime in outdict[fname]['npzlist'].keys():
+            oneoutdict = {}
+            for key in ['npzlist', 'stnlist']:
+               oneoutdict[key] = outdict[fname][key][filetime]
+               
+            npzProcessor = NpzStationProcessor(fname, indir, outdir, args, oneoutdict, filetime)
+            if (args['mode'] == 'train') or (args['mode'] == 'test'):
+               npzProcessor.set_time(args['list'])
+               npzProcessor.cut_wave(args['mode'])
+            npzProcessor.to_npz(args['mode'])
+            df = npzProcessor.make_list(args['list'], args['mode'])
+            outcsv_list.append(df)
+
+            if (args['mode'] == 'train') or (args['mode'] == 'test'):
+               break # only processing first unit
       
       # make data list
       df = pd.concat(outcsv_list)

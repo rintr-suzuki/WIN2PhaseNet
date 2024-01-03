@@ -19,12 +19,12 @@ class Converter(object):
     def outdir(self):
         return self._outdir
 
-# 1 winfile -> n npzfile (n=station)
+# 1 winfile -> n*(length/input_length) npzfile (n=station)
 # win2npz.fを実行するクラス
 class NpzConverter(Converter):
     def __init__(self, fname, indir, outdir, stndir, listname, params):
         super().__init__(fname, indir, outdir, params)
-        self._wavedata = WinWavedata(fname, params['name_format'])
+        self._wavedata = WinWavedata(fname)
         
         # make station list for each event
         fname = self._wavedata.fname; baseFname = self._wavedata.baseFname; stnlst = params['stnlst']
@@ -87,8 +87,6 @@ class NpzConverter(Converter):
             com = com + ' -f %s' % self._filprm
         print("[NpzConverter.to_npz]:", com)
 
-        filetime = self._wavedata.filetime
-
         ## needs fortran ##
         proc = sp.run(com, shell=True, stdout = sp.PIPE, stderr = sp.STDOUT) #be careful for shell injection!!
         out = proc.stdout.decode("utf8")
@@ -104,21 +102,25 @@ class NpzConverter(Converter):
         #     print("[NpzConverter.to_npz]:", out)
         # ##############
 
-        self._outfiles = glob.glob(os.path.join(self._outdir, filetime + '*' + '.npz'))
-        self._stations = [os.path.basename(fname).rstrip('.npz').split('_')[1] for fname in self._outfiles]
+        filetime_list = sorted(list(set([os.path.basename(fname).rstrip('.npz').split('_')[0] for fname in glob.glob(os.path.join(self._outdir, '*' + '.npz'))])), key=int)      
+        self._outfiles = {}; self._stations = {}
+        for key in filetime_list:
+            self._outfiles[key] = glob.glob(os.path.join(self._outdir, key + '*' + '.npz'))
+            self._stations[key] = [os.path.basename(fname).rstrip('.npz').split('_')[1] for fname in self._outfiles[key]]
 
 # npzファイルのおさまったディレクトリを受け取ってフォーマットの修正を行うクラス
 class NpzProcessor(Converter):
     def __init__(self, fname, indir, outdir, params):
         super().__init__(fname, indir, outdir, params)
 
-# n npzfile -> n npzfile
+# n npzfile -> n npzfile (n=station)
+# fnameはWINの波形ファイル名・filetimeはnpzの波形ファイル名の一部
 class NpzStationProcessor(NpzProcessor):
-    def __init__(self, fname, indir, outdir, params, npzinfo):
+    def __init__(self, fname, indir, outdir, params, npzinfo, filetime):
         super().__init__(fname, indir, outdir, params)
-        self._wavedata = NpzStationWavedata(fname, npzinfo, params['name_format']) #stations, outfiles->npzdataとして格納
+        self._wavedata = NpzStationWavedata(fname, npzinfo, filetime) #stations, outfiles->npzdataとして格納
 
-        print("[NpzProcessor.__init__]:", self._wavedata.baseFname, "stations:", len(self._wavedata.npzdata.keys()))
+        print("[NpzProcessor.__init__]:", self._wavedata.baseFname, self._wavedata.filetime, "stations:", len(self._wavedata.npzdata.keys()))
 
     def set_time(self, listname):
         # 検測値リスト読み込み・処理するイベントに対応する部分だけ抜粋

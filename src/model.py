@@ -2,17 +2,13 @@ import numpy as np
 import os
 import datetime
 
-from util import load_npz, read_wavename
+from util import load_npz
 
 class Wavedata(object):
-    def __init__(self, fname, name_format):
+    def __init__(self, fname):
         self._fname = fname
         self._baseFname = os.path.basename(fname)
         self._outFname = None
-
-        self._filetime = read_wavename(self._baseFname, name_format)
-        self._t0_dt = datetime.datetime.strptime(self._filetime, "%y%m%d%H%M%S")
-        self._t0 = self._t0_dt.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
 
     @property
     def fname(self):
@@ -22,35 +18,22 @@ class Wavedata(object):
     def baseFname(self):
         return self._baseFname
 
-    @property
-    def filetime(self):
-        return self._filetime
-
-    @property
-    def t0_dt(self):
-        return self._t0_dt
-
-    @property
-    def t0(self):
-        return self._t0
-    
-    @t0.setter
-    def t0_dt(self, t0_dt):
-        self._t0_dt = t0_dt
-        self._t0 = self._t0_dt.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
-
 class WinWavedata(Wavedata):
-    def __init__(self, fname, name_format):
-        super().__init__(fname, name_format)
+    def __init__(self, fname):
+        super().__init__(fname)
 
 class NpzWavedata(Wavedata):
-    def __init__(self, fname, name_format):
-        super().__init__(fname, name_format)
+    def __init__(self, fname, filetime):
+        super().__init__(fname)
         self._npzdata = {}
         self._outFname = {}
         self._itp = {}
         self._its = {}
         self._channel = "net"
+
+        self._filetime = filetime
+        self._t0_dt = datetime.datetime.strptime(self._filetime, "%y%m%d%H%M%S")
+        self._t0 = self._t0_dt.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
 
     @property
     def npzdata(self):
@@ -71,6 +54,18 @@ class NpzWavedata(Wavedata):
     @property
     def channel(self):
         return self._channel
+
+    @property
+    def t0_dt(self):
+        return self._t0_dt
+
+    @property
+    def t0(self):
+        return self._t0
+    
+    @property
+    def filetime(self):
+        return self._filetime
 
     @npzdata.setter
     def npzdata(self, npzdata):
@@ -96,9 +91,14 @@ class NpzWavedata(Wavedata):
                 value = np.array(value, dtype=np.int64)
             self._its[key] = value
 
+    @t0_dt.setter
+    def t0_dt(self, t0_dt):
+        self._t0_dt = t0_dt
+        self._t0 = self._t0_dt.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
+
 class NpzStationWavedata(NpzWavedata):
-    def __init__(self, fname, npzinfo, name_format):
-        super().__init__(fname, name_format)
+    def __init__(self, fname, npzinfo, filetime):
+        super().__init__(fname, filetime)
 
         npzdict = {}
         stnlist = npzinfo['stnlist']
