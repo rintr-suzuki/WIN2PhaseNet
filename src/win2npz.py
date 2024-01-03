@@ -14,26 +14,26 @@ def read_args():
    parser.add_argument('--mode', choices=['cont', 'train', 'test'], required=True)
    
    # input information
-   parser.add_argument('--list')
-   parser.add_argument('--indir', default='data')
+   parser.add_argument('--list', help='[train, test] file path of pick list')
+   parser.add_argument('--indir', default='data', help='path of input directory for WIN waveform files (default: data)')
 
    # output information
-   parser.add_argument('--outdir', default='out')
-   parser.add_argument('--output_length', default=60, help='[cont] length of output npz waveform')
+   parser.add_argument('--outdir', default='out', help='path of output directory (default: out)')
+   parser.add_argument('--output_length', default=60, help='[cont] length of output npz waveform (unit: second, default: 60)')
 
    # station list for conversion
-   parser.add_argument('--stnlst', default='etc/stn.lst', help='station list')
+   parser.add_argument('--stnlst', default='etc/stn.lst', help='path of station list file (default: etc/stn.lst)')
 
    # channel table of station code
-   parser.add_argument('--chtbl', default='etc/stn.tbl', help='channel table')
+   parser.add_argument('--chtbl', default='etc/stn.tbl', help='path of channel table file (default: etc/stn.tbl)')
 
    # Note that S-net station should be converted to adjust rotation
-   parser.add_argument('--rotation', action='store_true', help='rotation for S-net data')
-   parser.add_argument('--rottbl', default='etc/ch_rot.takagi', help='rotation table')
+   parser.add_argument('--rotation', action='store_true', help='[Developing] rotation for S-net data')
+   parser.add_argument('--rottbl', default='etc/ch_rot.takagi', help='[Developing] rotation table')
 
    # 
-   parser.add_argument('--filter', action='store_true')
-   parser.add_argument('--filprm', default='etc/filter.prm', help='filter information')
+   parser.add_argument('--filter', action='store_true', help='[Developing] add filter')
+   parser.add_argument('--filprm', default='etc/filter.prm', help='[Developing] filter information')
 
    # #number of thread: (max) fudai: 15, wdeep: 20
    # parser.add_argument('--pooln', type=int, default=20, help='number of thread: default=20, multi thread processing is not ready..')

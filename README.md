@@ -113,11 +113,11 @@ $ cd WIN2PhaseNet
     | --- | --- |
     | `--mode {cont,train,test}` | specify the mode (see 'Output format' for the detailed infomation) |
     | `--list LIST` | file path of pick list (Required only for **train** and **test** mode) |
-    | `[--indir INDIR]` | path of input directory for WIN waveform files (default: `./data`) |
-    | `[--outdir OUTDIR]` | path of output directory (default: `./out`) |
+    | `[--indir INDIR]` | path of input directory for WIN waveform files (default: `data`) |
+    | `[--outdir OUTDIR]` | path of output directory (default: `out`) |
     | `[--output_length OUTPUT_LENGTH]` | length of output npz waveform (unit: second, default: `60`, valid only for **cont** mode) |
-    | `[--stnlst STNLST]` | path of station list file (default: `./etc/stn.lst`) |
-    | `[--chtbl CHTBL]` | path of channel table file (default: `./etc/stn.tbl`) |
+    | `[--stnlst STNLST]` | path of station list file (default: `etc/stn.lst`) |
+    | `[--chtbl CHTBL]` | path of channel table file (default: `etc/stn.tbl`) |
 
 ### 4. Execute WIN2PhaseNet
 ```
