@@ -77,7 +77,7 @@ $ cd WIN2PhaseNet
 
 * Pick list
     * format: csv format
-    
+
         | Column | Description |
         | --- | --- |
         | `win_name` | the file name of a WIN waveform file |
@@ -130,7 +130,7 @@ $ ./docker-run.bash
 This program **NOT** contains PhaseNet but show how to use PhaseNet briefly<br>
 Npz data made by **'cont' mode** of WIN2PhaseNet is required in advance
 
-#### Download PhaseNet and model
+#### Download PhaseNet
 ```
 $ cd <base directory> # return to base directory
 $ git clone -b release https://github.com/AI4EPS/PhaseNet.git
