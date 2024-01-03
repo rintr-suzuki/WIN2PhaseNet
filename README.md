@@ -38,7 +38,7 @@
 
     | Key | Description |
     | --- | --- |
-    | `data` | - continuous waveform data of one station <br> - dataShape: **([OUTPUT_LENGTH]\*100, 3)** # means [OUTPUT_LENGTH] seconds (100 Hz) / 3 compornent |
+    | `data` | - continuous waveform data of one station <br> - dataShape: **(6000, 3)** # means 60 seconds (100 Hz) / 3 compornent <br> - you can change data length with `--output_length` option |
     | `t0` | start time of waveform file |
     | `sta_id` | station code |
 
@@ -63,17 +63,26 @@ $ cd WIN2PhaseNet
 
 ### 2. Input file preparation
 #### 1. Common for all modes
+* Station list
+    * List up all stations to process
+    * format: txt format
+    * Put the file as `<base directory>/WIN2PhaseNet/etc/stn.lst` <br>
+      You can change the path with `--stnlst` option
+    * Sample: `<base directory>/WIN2PhaseNet/etc/stn.lst`
+
 * Channel table
     * format: txt format <br>
       For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.ja/win.html (only in Japanese)
-    * Put the files at `<base directory>/WIN2PhaseNet/etc/stn.tbl`
+    * Put the file as `<base directory>/WIN2PhaseNet/etc/stn.tbl` <br>
+      You can change the path with `--chtbl` option
 
 #### 2. Only for **train** and **test** mode
 * Event WIN waveform files
     * format: 'WIN' format <br>
       For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
     * **Only >=180 seconds and 100 Hz data is acceptable** *2
-    * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there
+    * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there <br>
+      You can change the path with `--indir` option
 
 * Pick list
     * format: csv format
@@ -93,8 +102,9 @@ $ cd WIN2PhaseNet
 * Continuous WIN waveform files
     * format: 'WIN' format <br>
       For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
-    * **Only >=[OUTPUT_LENGTH] seconds and 100 Hz data is acceptable** *2
-    * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there
+    * **Only >=[OUTPUT_LENGTH (default: 60)] seconds and 100 Hz data is acceptable** *2
+    * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there <br>
+      You can change the path with `--indir` option
 
 ### 3. Configuration of WIN2PhaseNet
 * Set following option according to the situation
@@ -103,10 +113,11 @@ $ cd WIN2PhaseNet
     | --- | --- |
     | `--mode {train,test,cont}` | specify the mode (see 'Output format' for the detailed infomation) |
     | `--list LIST` | file path of pick list (Required only for **train** and **test** mode) |
-    | `[--outdir OUTDIR]` | directory path of output files (default: `./out`) |
+    | `[--outdir OUTDIR]` | path of output directory (default: `./out`) |
     | `[--output_length OUTPUT_LENGTH]` | length of output npz waveform (unit: second, default: `60`, valid only for **cont** mode) |
-    | `[--indir INDIR]` | directory path of WIN waveform files (default: `./data`) |
-    | `[--chtbl CHTBL]` | directory path of channel table file (default: `./etc/stn.tbl`) |
+    | `[--indir INDIR]` | path of input directory for WIN waveform files (default: `./data`) |
+    | `[--stnlst STNLST]` | path of station list file (default: `./etc/stn.lst`) |
+    | `[--chtbl CHTBL]` | path of channel table file (default: `./etc/stn.tbl`) |
 
 ### 4. Execute WIN2PhaseNet
 ```
@@ -160,8 +171,8 @@ $ ./docker-run.bash phasenet
   **station**: same information as `sta_id`
 
 * *2 The following data is filled with 0
-    * Lack part when the data length of the input WIN waveform is **less than the specified length (train, test: 180 seconds, cont: [OUTPUT_LENGTH] seconds)**
-    * Remainder when the data length of the input WIN waveform is **not divisible by [OUTPUT_LENGTH] seconds**
+    * Lack part when the data length of the input WIN waveform is **less than the specified length (train, test: 180 seconds, cont: [OUTPUT_LENGTH (default: 60)] seconds)**
+    * Remainder when the data length of the input WIN waveform is **not divisible by [OUTPUT_LENGTH (default: 60)] seconds**
 
 * *3 Each docker image is built from the following Dockerfile
     * win2npz: dockerfiles/win2npz/Dockerfile
