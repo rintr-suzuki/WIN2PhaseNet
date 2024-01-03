@@ -26,7 +26,7 @@
 
 | Key | Description |
 | --- | --- |
-| `data` | - event waveform data of one event / one station <br> - dataShape: **(3000, 3)** # means 30 seconds (100Hz) / 3 compornent <br> - data starts **1 seconds** before of 'itp'|
+| `data` | - event waveform data of one event / one station <br> - dataShape: **(3000, 3)** # means 30 seconds (100Hz) / 3 compornent <br> - data starts **1 seconds** before of 'itp' |
 | `itp` | file path of Pick list |
 | `its` | directory path of output npz waveform files |
 | `t0` | start time of waveform file |
@@ -40,7 +40,7 @@
 
 | Key | Description |
 | --- | --- |
-| `data` | - continuous waveform data of one station <br> - dataShape: **(3000, 3)** # means 30 seconds (100 Hz) / 3 compornent |
+| `data` | - continuous waveform data of one station <br> - dataShape: **([OUTPUT_LENGTH]\*100, 3)** # means OUTPUT_LENGTH seconds (100 Hz) / 3 compornent |
 | `t0` | start time of waveform file |
 | `sta_id` | station code |
 
@@ -101,7 +101,7 @@ $ cd WIN2PhaseNet
     * format:
         * 'WIN' format
             * For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
-        * **Only >=30 seconds and 100 Hz data is acceptable**
+        * **Only >=[OUTPUT_LENGTH] seconds and 100 Hz data is acceptable**
 
     * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there
 
@@ -111,8 +111,9 @@ $ cd WIN2PhaseNet
 | Option | Description |
 | --- | --- |
 | `--mode {train,test,cont}` | specify the mode (see 'Output format' for the detailed infomation) |
-| `--list LIST` | file path of Pick list (Required only for **train** and **test** mode) |
+| `--list LIST` | file path of pick list (Required only for **train** and **test** mode) |
 | `[--outdir OUTDIR]` | directory path of output files (default: `./out`) |
+| `[--output_length OUTPUT_LENGTH]` | length of output npz waveform (unit: second, default: `30`, valid only for **cont** mode) |
 | `[--indir INDIR]` | directory path of WIN waveform files (default: `./data`) |
 | `[--chtbl CHTBL]` | directory path of channel table file (default: `./etc/stn.tbl`) |
 

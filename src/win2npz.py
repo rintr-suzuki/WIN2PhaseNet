@@ -16,10 +16,10 @@ def read_args():
    # input information
    parser.add_argument('--list')
    parser.add_argument('--indir', default='data')
-   parser.add_argument('--input_length', default=180, help='original length of win waveform')
 
    # output information
    parser.add_argument('--outdir', default='out')
+   parser.add_argument('--output_length', default=30, help='[cont] length of output npz waveform')
 
    # station list for conversion
    parser.add_argument('--stnlst', default='etc/stn.lst', help='station list')
@@ -49,9 +49,11 @@ def main(args):
             print("[Error: Pick list is missing]:", "Please specify pick list if mode is train or test, mode:", args['mode'])
             exit(1)
 
-      ## set length to 30 second for cont mode
-      if args['mode'] == 'cont':
-         args['input_length'] = 30
+      ## set length
+      if (args['mode'] == 'train') or (args['mode'] == 'test'):
+         args['input_length'] = 180 # to contain pick data
+      elif args['mode'] == 'cont':
+         args['input_length'] = args['output_length']
 
       ## set input files
       indir = args['indir']
@@ -77,7 +79,7 @@ def main(args):
             oneoutdict = {}
             for key in ['npzlist', 'stnlist']:
                oneoutdict[key] = outdict[fname][key][filetime]
-               
+
             npzProcessor = NpzStationProcessor(fname, indir, outdir, args, oneoutdict, filetime)
             if (args['mode'] == 'train') or (args['mode'] == 'test'):
                npzProcessor.set_time(args['list'])
