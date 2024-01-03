@@ -19,7 +19,7 @@ def read_args():
 
    # output information
    parser.add_argument('--outdir', default='out')
-   parser.add_argument('--output_length', default=30, help='[cont] length of output npz waveform')
+   parser.add_argument('--output_length', default=60, help='[cont] length of output npz waveform')
 
    # station list for conversion
    parser.add_argument('--stnlst', default='etc/stn.lst', help='station list')
