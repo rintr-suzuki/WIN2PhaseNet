@@ -64,15 +64,18 @@ $ cd WIN2PhaseNet
 ### 2. Input file preparation
 #### 1. Common for all modes
 * Station list
-    * List up all stations to process
+    * List in all stations to process
     * format: txt format
+    * **Only stations listed in the channel table are allowed to be listed in**
     * Put the file as `<base directory>/WIN2PhaseNet/etc/stn.lst` <br>
       You can change the path with `--stnlst` option
-    * Sample: `<base directory>/WIN2PhaseNet/etc/stn.lst`
+    * Sample: `<base directory>/WIN2PhaseNet/sample/etc/stn.lst`
 
 * Channel table
     * format: txt format <br>
       For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.ja/win.html (only in Japanese)
+    * NIED provides channel table at the same time when downloading WIN waveform files <br>
+      For the detailed information, see https://hinetwww11.bosai.go.jp/auth/download/cont/?LANG=en
     * Put the file as `<base directory>/WIN2PhaseNet/etc/stn.tbl` <br>
       You can change the path with `--chtbl` option
 
@@ -81,6 +84,8 @@ $ cd WIN2PhaseNet
     * format: 'WIN' format <br>
       For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
     * **Only >=[OUTPUT_LENGTH (default: 60)] seconds and 100 Hz data is acceptable** *2
+    * NIED provides 60 seconds of WIN waveform files <br>
+      For the detailed information, see https://hinetwww11.bosai.go.jp/auth/download/cont/?LANG=en
     * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there <br>
       You can change the path with `--indir` option
 
@@ -104,7 +109,7 @@ $ cd WIN2PhaseNet
 
     * Put the file at `<base directory>/WIN2PhaseNet`
     * **Only data from the station with BOTH P phase and S phase is processed**
-    * Sample: `<base directory>/WIN2PhaseNet/picks.csv`
+    * Sample: `<base directory>/WIN2PhaseNet/sample/picks.csv`
 
 ### 3. Configuration of WIN2PhaseNet
 * Set following option according to the situation
