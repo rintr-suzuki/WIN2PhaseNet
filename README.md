@@ -1,7 +1,7 @@
 # WIN2PhaseNet
 
 ## Summary 
-* Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN waveform file and pick list.
+* Program to make various data for PhaseNet (Zhu and Beroza, 2019) from WIN/WIN32 (hereafter just ‘WIN’) format waveform file and pick list.
 * High-speed processing is possible through the use of **fortran**.
 * Easy to run on various OS by using **docker**.
 * Provides simplified operating procedure for PhaseNet and a docker environment to run PhaseNet.
