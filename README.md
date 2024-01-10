@@ -7,7 +7,7 @@
 * Provides simplified operating procedure for PhaseNet and a docker environment to run PhaseNet.
 
 ## What is the output?
-### 1. `cont` mode (For prediction of PhaseNet)
+### 1. `cont` mode (For PhaseNet prediction)
 * npz waveform files: `npz/[datetime]_[station].npz` *1
 
     | Key | Description |
@@ -18,7 +18,7 @@
 
 * npz waveform list: `npz.csv`
 
-### 2. `train` mode (For training of PhaseNet)
+### 2. `train` mode (For PhaseNet training)
 * npz waveform files: `npz/[datetime]_[station].npz` *1
 
     | Key | Description |
@@ -31,7 +31,7 @@
 
 * npz waveform list: `npz.csv`
 
-### 3. `test` mode (For training of PhaseNet)
+### 3. `test` mode (For PhaseNet training)
 * npz waveform files: `npz/[datetime]_[station].npz` *1
 
     | Key | Description |
