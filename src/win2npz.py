@@ -11,7 +11,7 @@ def read_args():
    parser = argparse.ArgumentParser()
 
    # mode information
-   parser.add_argument('--mode', choices=['cont', 'train', 'test'], required=True)
+   parser.add_argument('--mode', choices=['cont', 'train', 'test'], required=True, help='See "README.md" for the detailed infomation.')
    
    # input information
    parser.add_argument('--list', help='[train, test] file path of pick list')
