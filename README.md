@@ -112,7 +112,7 @@ $ cd WIN2PhaseNet
     * sample: `<base directory>/WIN2PhaseNet/sample/picks.csv`
 
 ### 3. Configuration of WIN2PhaseNet
-* Set following option at least.
+* Set the following options at least.
 
     | Option | Description |
     | --- | --- |
