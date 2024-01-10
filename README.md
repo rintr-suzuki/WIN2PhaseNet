@@ -7,7 +7,7 @@
 * Provides simplified operating procedure for PhaseNet and a docker environment to run PhaseNet.
 
 ## What is the output?
-### 1. `cont` mode
+### 1. `cont` mode (For prediction of PhaseNet)
 * npz waveform files: `npz/[datetime]_[station].npz` *1
 
     | Key | Description |
@@ -18,7 +18,7 @@
 
 * npz waveform list: `npz.csv`
 
-### 2. `train` mode
+### 2. `train` mode (For training of PhaseNet)
 * npz waveform files: `npz/[datetime]_[station].npz` *1
 
     | Key | Description |
@@ -31,7 +31,7 @@
 
 * npz waveform list: `npz.csv`
 
-### 3. `test` mode
+### 3. `test` mode (For training of PhaseNet)
 * npz waveform files: `npz/[datetime]_[station].npz` *1
 
     | Key | Description |
@@ -66,7 +66,8 @@ $ cd WIN2PhaseNet
 * Station list
     * List in all stations to process
     * format: txt format
-    * **Only stations listed in the channel table are allowed to be listed in**
+    * **Only stations listed in the channel table are allowed to be listed in** <br>
+      You can automatically set all the stations in the channel table as a station list with `--tbl2lst` option, instead of preparing a txt file of station list
     * Put the file as `<base directory>/WIN2PhaseNet/etc/stn.lst` <br>
       You can change the path with `--stnlst` option
     * Sample: `<base directory>/WIN2PhaseNet/sample/etc/stn.lst`
@@ -122,6 +123,7 @@ $ cd WIN2PhaseNet
     | `[--outdir OUTDIR]` | path of output directory (default: `out`) |
     | `[--output_length OUTPUT_LENGTH]` | length of output npz waveform (unit: second, default: `60`, valid only for `cont` mode) |
     | `[--stnlst STNLST]` | path of station list file (default: `etc/stn.lst`) |
+    | `[--tbl2lst]` | automatically set all the stations in the channel table as a station list |
     | `[--chtbl CHTBL]` | path of channel table file (default: `etc/stn.tbl`) |
 
 ### 4. Execute WIN2PhaseNet
@@ -130,9 +132,10 @@ $ cd WIN2PhaseNet
 $ ./docker-run.bash
 
 # run WIN2PhaseNet on the container environment
-(container)$ python3 src/win2npz.py --mode {cont,train,test} --list LIST [--indir INDIR] [--outdir OUTDIR] [--output_length OUTPUT_LENGTH] [--stnlst STNLST] [--chtbl CHTBL]
+(container)$ python3 src/win2npz.py --mode {cont,train,test} --list LIST [--indir INDIR] [--outdir OUTDIR] [--output_length OUTPUT_LENGTH] [--stnlst STNLST] [--tbl2lst] [--chtbl CHTBL]
 # e.g. 
-# (container)$ python3 src/win2npz.py --mode cont
+# (container)$ python3 src/win2npz.py --mode cont # with both 'stn.lst' and 'stn.tbl'
+# (container)$ python3 src/win2npz.py --mode cont --tbl2lst # without 'stn.lst' (only 'stn.tbl')
 # (container)$ python3 src/win2npz.py --mode train --list picks.csv
 # (container)$ python3 src/win2npz.py --mode test --list picks.csv
 

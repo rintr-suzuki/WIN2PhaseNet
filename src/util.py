@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import datetime
 
 def count_non_nan(data):
     is_nan_data = np.array(list(map(np.isnan, data)))

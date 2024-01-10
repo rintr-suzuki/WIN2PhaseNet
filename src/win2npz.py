@@ -4,7 +4,7 @@ import glob
 import argparse
 import pandas as pd
 
-from util import load_csv
+from model_stn import StationTable
 from service import NpzConverter, NpzStationProcessor
 
 def read_args():
@@ -23,6 +23,7 @@ def read_args():
 
    # station list for conversion
    parser.add_argument('--stnlst', default='etc/stn.lst', help='path of station list file (default: etc/stn.lst)')
+   parser.add_argument('--tbl2lst', action='store_true', help='automatically set all the stations in the channel table as a station list')
 
    # channel table of station code
    parser.add_argument('--chtbl', default='etc/stn.tbl', help='path of channel table file (default: etc/stn.tbl)')
@@ -35,7 +36,7 @@ def read_args():
    parser.add_argument('--filter', action='store_true', help='[Developing] add filter')
    parser.add_argument('--filprm', default='etc/filter.prm', help='[Developing] filter information')
 
-   # #number of thread: (max) fudai: 15, wdeep: 20
+   # #number of thread
    # parser.add_argument('--pooln', type=int, default=20, help='number of thread: default=20, multi thread processing is not ready..')
 
    args = parser.parse_args()
@@ -58,6 +59,13 @@ def main(args):
       ## set input files
       indir = args['indir']
       files = glob.glob(indir + "/*")
+
+      ## set stnlst (if use --tbl2lst option)
+      if args['tbl2lst']:
+         stntbl = StationTable()
+         stntbl.chtbl = args['chtbl']
+         stntbl.tbl2lst(".tmp")
+         args['stnlst'] = stntbl.stnlst
 
       # convert win format into npz format
       stndir = os.path.join(".tmp", "stn")
