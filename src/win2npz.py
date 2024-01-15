@@ -28,13 +28,13 @@ def read_args():
    # channel table of station code
    parser.add_argument('--chtbl', default='etc/stn.tbl', help='path of channel table file (default: etc/stn.tbl)')
 
-   # Note that S-net station should be converted to adjust rotation
-   parser.add_argument('--rotation', action='store_true', help='[Developing] rotation for S-net data')
-   parser.add_argument('--rottbl', default='etc/ch_rot.takagi', help='[Developing] rotation table')
+   # rotation process
+   parser.add_argument('--rotation', action='store_true', help='add rotation process for S-net data')
+   parser.add_argument('--rottbl', default='etc/ch_rot.takagi', help='path of rotation table file (default: etc/ch_rot.takagi)')
 
-   # 
-   parser.add_argument('--filter', action='store_true', help='[Developing] add filter')
-   parser.add_argument('--filprm', default='etc/filter.prm', help='[Developing] filter information')
+   # band-pass filter process
+   parser.add_argument('--filter', action='store_true', help='add band-pass filter process')
+   parser.add_argument('--filprm', default='etc/filter.prm', help='path of filter configuration file (default: etc/filter.prm)')
 
    # #number of thread
    # parser.add_argument('--pooln', type=int, default=20, help='number of thread: default=20, multi thread processing is not ready..')
