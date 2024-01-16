@@ -54,7 +54,7 @@ elif [[ $name == "phasenet" ]]; then
     -v $phasenetdir:/data/PhaseNet \
     -v $workdir:/data/WIN2PhaseNet \
     $image_name:$tag_name \
-    /bin/bash
+    bash
 
 # phasenet image for 'release' branch of PhaseNet
 # for WIN2PhaseNet v1.1
