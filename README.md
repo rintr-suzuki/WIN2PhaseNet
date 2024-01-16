@@ -46,7 +46,12 @@
 
 ## How to use
 ### 1. Environment preparation
-* OS: macOS, Linux
+* OS: Windows, macOS, Linux
+
+* (Only required for Windows) Git Bash <br>
+  https://gitforwindows.org/ <br>
+  For Windows, run "Git Bash" as administrator and use it to execute commands for following steps.
+
 * docker <br>
   https://docs.docker.com/get-docker/
 ```
@@ -134,7 +139,7 @@ $ cd WIN2PhaseNet
   | Option | Description |
   | --- | --- |
   | `--mode {cont,train,test}` | specify the mode (See 'What is the output?' for the detailed infomation.) |
-  | `--list LIST` | file path of pick list (Required only for `train` and `test` mode) |
+  | `--list LIST` | file path of pick list (Only required for `train` and `test` mode) |
   | `[--output_length OUTPUT_LENGTH]` | length of output npz waveform (unit: second, default: `60`, valid only for `cont` mode) |
   | `[--tbl2lst]` | automatically set all the stations in the channel table as a station list |
   | `[--rotation]` | add rotation process for S-net data |
