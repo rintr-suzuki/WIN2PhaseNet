@@ -53,13 +53,17 @@
   For Windows, run "Git Bash" as administrator and use it to execute commands for following steps.
 
 * docker <br>
-  https://docs.docker.com/get-docker/
-```
-# Installation of docker (e.g. Ubuntu22.04)
-$ sudo apt-get update
-$ sudo apt-get install docker
-$ sudo docker -v # confirm installation
-```
+  For Windows and macOS, install "Docker Desktop" and run it to activate docker. <br>
+  https://docs.docker.com/get-docker/ <br>
+  
+  For Linux, install "Docker Engine". <br>
+  https://docs.docker.com/engine/install/ <br>
+    ```
+    # Installation of docker (e.g. Ubuntu22.04)
+    $ sudo apt-get update
+    $ sudo apt-get install docker
+    $ sudo docker -v # confirm installation
+    ```
 * this program
 ```
 $ cd <base directory> # move to any directory (base directory) to clone WIN2PhaseNet
