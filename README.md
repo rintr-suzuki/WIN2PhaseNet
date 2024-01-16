@@ -189,9 +189,9 @@ $ cd <base directory>/WIN2PhaseNet # return to WIN2PhaseNet directory
 $ ./docker-run.bash phasenet
 
 # Run PhaseNet on the container environment.
-(container)$ python phasenet/predict.py --model_dir=model/190703-214543 --data_dir=<"npz waveform files" directory path of WIN2PhaseNet> --data_list=<"npz waveform list" path of WIN2PhaseNet> --amplitude
+(container)$ python phasenet/predict.py --model_dir=model/190703-214543 --data_dir=<"npz waveform files" directory path of WIN2PhaseNet> --data_list=<"npz waveform list" path of WIN2PhaseNet> --amplitude --plot_figure
 # e.g. 
-# (container)$ python phasenet/predict.py --model_dir=model/190703-214543 --data_dir=../WIN2PhaseNet/out/npz --data_list=../WIN2PhaseNet/out/npz.csv --amplitude
+# (container)$ python phasenet/predict.py --model_dir=model/190703-214543 --data_dir=../WIN2PhaseNet/out/npz --data_list=../WIN2PhaseNet/out/npz.csv --amplitude --plot_figure
 
 # Exit the container environment after execution is complete.
 (container)$ exit
