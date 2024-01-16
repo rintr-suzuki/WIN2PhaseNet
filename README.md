@@ -55,7 +55,7 @@
 * docker <br>
   For Windows and macOS, install "Docker Desktop" and run it to activate docker. <br>
   https://docs.docker.com/get-docker/ <br>
-  
+
   For Linux, install "Docker Engine". <br>
   https://docs.docker.com/engine/install/ <br>
     ```
@@ -65,11 +65,11 @@
     $ sudo docker -v # confirm installation
     ```
 * this program
-```
-$ cd <base directory> # move to any directory (base directory) to clone WIN2PhaseNet
-$ git clone https://github.com/rintr-suzuki/WIN2PhaseNet.git
-$ cd WIN2PhaseNet
-```
+  ```
+  $ cd <base directory> # move to any directory (base directory) to clone WIN2PhaseNet
+  $ git clone https://github.com/rintr-suzuki/WIN2PhaseNet.git
+  $ cd WIN2PhaseNet
+  ```
 
 ### 2. Input file preparation
 #### 1. Common for all modes
