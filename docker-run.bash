@@ -23,7 +23,7 @@ fi
 if [[ $name == "win2npz" ]]; then
     # イメージがない場合はpullする
     image_name='win2npz'
-    if ! $docker_head docker images --format '{{.Repository}}' | grep -q "^$image_name$"; then
+    if ! docker images --format '{{.Repository}}' | grep -q "^$image_name$"; then
         $docker_head docker pull ghcr.io/rintr-suzuki/docker-registry-win2phasenet/win2npz:latest
         $docker_head docker tag ghcr.io/rintr-suzuki/docker-registry-win2phasenet/win2npz:latest win2npz:latest
         $docker_head docker image rm ghcr.io/rintr-suzuki/docker-registry-win2phasenet/win2npz:latest
@@ -40,7 +40,7 @@ if [[ $name == "win2npz" ]]; then
 elif [[ $name == "phasenet" ]]; then
     # イメージがない場合はpullする
     image_name='phasenet'; tag_name='v1.2'
-    if ! $docker_head docker images --format '{{.Repository}}:{{.Tag}}' | grep -q "$image_name:$tag_name"; then
+    if ! docker images --format '{{.Repository}}:{{.Tag}}' | grep -q "$image_name:$tag_name"; then
         $docker_head docker pull ghcr.io/rintr-suzuki/docker-registry-win2phasenet/phasenet:v1.2
         $docker_head docker tag ghcr.io/rintr-suzuki/docker-registry-win2phasenet/phasenet:v1.2 phasenet:v1.2
         $docker_head docker image rm ghcr.io/rintr-suzuki/docker-registry-win2phasenet/phasenet:v1.2
@@ -61,7 +61,7 @@ elif [[ $name == "phasenet" ]]; then
 elif [[ $name == "phasenet-old" ]]; then
     # イメージがない場合はpullする
     image_name='phasenet'; tag_name='latest'
-    if ! $docker_head docker images --format '{{.Repository}}:{{.Tag}}' | grep -q "$image_name:$tag_name"; then
+    if ! docker images --format '{{.Repository}}:{{.Tag}}' | grep -q "$image_name:$tag_name"; then
         $docker_head docker pull ghcr.io/rintr-suzuki/docker-registry-win2phasenet/phasenet:latest
         $docker_head docker tag ghcr.io/rintr-suzuki/docker-registry-win2phasenet/phasenet:latest phasenet:latest
         $docker_head docker image rm ghcr.io/rintr-suzuki/docker-registry-win2phasenet/phasenet:latest
