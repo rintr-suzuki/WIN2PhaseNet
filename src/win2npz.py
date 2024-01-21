@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-import os
-import glob
 import argparse
-import pandas as pd
 
-from model_stn import StationTable
+from master import Config, MasterProcess
 from service import NpzConverter, NpzStationProcessor
 
 def read_args():
@@ -43,75 +40,59 @@ def read_args():
    return args
    
 def main(args):
-      # common settings
-      ## exit if there is pick list
-      if (args['mode'] == 'train') or (args['mode'] == 'test'):
-         if args['list'] is None:
-            print("[Error: Pick list is missing]:", "Please specify pick list if mode is train or test, mode:", args['mode'])
-            exit(1)
+      # initial settings
+      ## master setting
+      generalConfig = Config(args)
+      masterProcess = MasterProcess(generalConfig)
 
-      ## set length
-      if (args['mode'] == 'train') or (args['mode'] == 'test'):
-         args['input_length'] = 180 # to contain pick data
-      elif args['mode'] == 'cont':
-         args['input_length'] = args['output_length']
+      for fname in generalConfig.files:
+         ## set config
+         config = Config(args)
+         config.set_fname(fname)
+         config.set_stndir()
+         config.set_outdir(False)
 
-      ## set input files
-      indir = args['indir']
-      files = glob.glob(indir + "/*")
-
-      ## set stnlst (if use --tbl2lst option)
-      if args['tbl2lst']:
-         stntbl = StationTable()
-         stntbl.chtbl = args['chtbl']
-         stntbl.tbl2lst(".tmp")
-         args['stnlst'] = stntbl.stnlst
+         ## save config
+         masterProcess.set_config(config)
 
       # convert win format into npz format
-      stndir = os.path.join(".tmp", "stn")
-      tmpoutdir = os.path.join(".tmp", args['outdir'])
-      listname = args['list']
+      for fname in generalConfig.files:
+         ## load config
+         config = masterProcess.get_config(fname)
 
-      outdict = {}
-      for fname in files:
-         npzConverter = NpzConverter(fname, indir, tmpoutdir, stndir, listname, args)
+         ## run npzConverter
+         npzConverter = NpzConverter(config)
          npzConverter.to_npz()
-         outdict[fname] = {'npzlist': npzConverter.outfiles, 'stnlist': npzConverter.stations}
+
+         ## save npzConverter
+         masterProcess.set_npzConverter(npzConverter)
 
       # add itp and its info to npz & make cut npz according to itp and its
-      outdir = os.path.join(args['outdir'], "npz")
-      
-      outcsv_list = []
-      for fname in files:
-         for filetime in outdict[fname]['npzlist'].keys():
-            oneoutdict = {}
-            for key in ['npzlist', 'stnlist']:
-               oneoutdict[key] = outdict[fname][key][filetime]
+      for fname in generalConfig.files:
+         ## load config
+         config = masterProcess.get_config(fname)
+         config.set_outdir(True)
 
-            npzProcessor = NpzStationProcessor(fname, indir, outdir, args, oneoutdict, filetime)
-            if (args['mode'] == 'train') or (args['mode'] == 'test'):
-               npzProcessor.set_time(args['list'])
-               npzProcessor.cut_wave(args['mode'])
-            npzProcessor.to_npz(args['mode'])
-            df = npzProcessor.make_list(args['list'], args['mode'])
-            outcsv_list.append(df)
+         ## load npzConverter
+         npzConverter = masterProcess.get_npzConverter(fname)
 
-            if (args['mode'] == 'train') or (args['mode'] == 'test'):
-               break # only processing first unit
+         ## run npzProcessor
+         for filetime in npzConverter.filetimeList:
+            npzProcessor = NpzStationProcessor(config, filetime)
+            npzProcessor.set_npz(npzConverter)
+            npzProcessor.set_time()
+            npzProcessor.cut_wave()
+            npzProcessor.to_npz()
+            npzProcessor.make_list()
+
+            ## save npzlist
+            masterProcess.set_npzList(npzProcessor)
       
       # make data list
-      df = pd.concat(outcsv_list)
-      outcsv = os.path.join(args['outdir'], "npz.csv")
-      df.to_csv(outcsv, index=None)
+      masterProcess.to_csv()
 
       # remove tmp file
-      for file in glob.glob(stndir + "/*.lst"):
-         os.remove(file)
-      
-      for dir in glob.glob(tmpoutdir + "/*"):
-         for file in glob.glob(dir + "/*.npz"):
-            os.remove(file)
-
+      masterProcess.rm_tmp()
 
 if __name__ == '__main__':
    args = vars(read_args()) # convert to dict
