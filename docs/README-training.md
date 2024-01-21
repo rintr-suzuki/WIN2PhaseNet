@@ -1,5 +1,5 @@
 # WIN2PhaseNet
-# Detail usage for PhaseNet training
+Detailed usage for PhaseNet training
 
 ## What is the output?
 ### 1. `train` mode (For PhaseNet training and validation)

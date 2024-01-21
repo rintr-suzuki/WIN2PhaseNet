@@ -1,5 +1,5 @@
 # WIN2PhaseNet
-# Detail usage for PhaseNet prediction
+Detailed usage for PhaseNet prediction
 
 ## What is the output?
 ### `cont` mode (For PhaseNet prediction)

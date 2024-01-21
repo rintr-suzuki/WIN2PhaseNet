@@ -28,7 +28,7 @@
     $ sudo docker -v # confirm installation
     ```
 ## Usage
-* Clone this program
+* Download repository
   ```
   $ cd <base directory> # move to any directory (base directory) to clone WIN2PhaseNet
   $ git clone https://github.com/rintr-suzuki/WIN2PhaseNet.git
