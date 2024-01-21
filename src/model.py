@@ -64,7 +64,12 @@ class NpzStationWavedata(NpzWavedata):
 
         npzdict = {}
         stnlist = npzConverter.stations[filetime]
-        npzdata = [load_npz(fname) for fname in npzConverter.outfiles[filetime]]
+        npzdata = []
+        for fname in npzConverter.outfiles[filetime]:
+            meta = load_npz(fname)
+            if np.all(meta[-100:, :] == 0):
+                print("[NpzStationWavedata.__init__]:[WARN] some data filled with 0. file =", fname)
+            npzdata.append(meta)
         for key, value in zip(stnlist, npzdata):
                 npzdict[key] = value
         self.npzdata = npzdict

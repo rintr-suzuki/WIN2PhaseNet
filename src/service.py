@@ -124,7 +124,7 @@ class NpzStationProcessor(object):
             self.wavedata = NpzStationWavedata(self.fname, npzConverter, self.filetime) #stations, outfiles->npzdataとして格納
             print("[NpzProcessor.set_npz]:", self.wavedata.baseFname, self.wavedata.filetime, "stations:", len(self.wavedata.npzdata.keys()))
         else:
-            print("[NpzProcessor.set_npz]: skipped. mode=", mode)
+            print("[NpzProcessor.set_npz]: skipped. mode =", mode)
 
     def set_time(self):
         mode = self.mode
@@ -148,7 +148,7 @@ class NpzStationProcessor(object):
             self.wavedata.its = itdict['its']
             print("[NpzProcessor.set_time]:", self.wavedata.baseFname, "itp:", count_non_nan(self.wavedata.itp.values()), "its:", count_non_nan(self.wavedata.its.values()))
         else:
-            print("[NpzProcessor.set_time]: skipped. mode=", mode)
+            print("[NpzProcessor.set_time]: skipped. mode =", mode)
     
     def cut_wave(self):
         mode = self.mode
@@ -219,7 +219,7 @@ class NpzStationProcessor(object):
                     #skipした場合は原因のコードを出力する、詳細は"calc cut point and revise itp and its"内コメント参照
                     print("[NpzProcessor.cut_wave]:", self.wavedata.baseFname, stn, "skipped. code:", skip[stn])
         else:
-            print("[NpzProcessor.cut_wave]: skipped. mode=", mode)
+            print("[NpzProcessor.cut_wave]: skipped. mode =", mode)
 
     def to_npz(self):
         mode = self.mode
@@ -253,7 +253,7 @@ class NpzStationProcessor(object):
 
                     print("[NpzProcessor.to_npz]:", out_fname)
         else:
-            print("[NpzProcessor.to_npz]: skipped. mode=", mode)
+            print("[NpzProcessor.to_npz]: skipped. mode =", mode)
 
     def make_list(self):
         mode = self.mode
@@ -300,7 +300,7 @@ class NpzStationProcessor(object):
             self.npzlist = df
             print("[NpzProcessor.make_list]:", fname)
         else:
-            print("[NpzProcessor.make_list]: skipped. mode=", mode)
+            print("[NpzProcessor.make_list]: skipped. mode =", mode)
         
         
 # 連続波形処理の場合は下記を実装する

@@ -12,7 +12,7 @@
 
   | Key | Description |
   | --- | --- |
-  | `data` | - continuous waveform data of one station <br> - dataShape: **(6000, 3)** # means 60 seconds (100 Hz) / 3 compornent <br> - You can change data length with `--output_length` option. |
+  | `data` | - continuous waveform data of one station <br> - dataShape: **(6000, 3)** # means 60 seconds (100 Hz) / 3 compornent *2 <br> - You can change data length with `--output_length` option. |
   | `t0` | start time of waveform file |
   | `sta_id` | station code |
 
@@ -23,7 +23,7 @@
 
   | Key | Description |
   | --- | --- |
-  | `data` | - event waveform data of one event / one station <br> - dataShape: **(9000, 3)** # means 90 seconds (100Hz) / 3 compornent <br> - Data starts **30 seconds** before of `itp`. |
+  | `data` | - event waveform data of one event / one station <br> - dataShape: **(9000, 3)** # means 90 seconds (100Hz) / 3 compornent *2 <br> - Data starts **30 seconds** before of `itp`. |
   | `itp` | the data point of **P phase** from the start of each npz waveform file |
   | `its` | the data point of **S phase** from the start of each npz waveform file |
   | `t0` | start time of waveform file |
@@ -36,7 +36,7 @@
 
   | Key | Description |
   | --- | --- |
-  | `data` | - event waveform data of one event / one station <br> - dataShape: **(3000, 3)** # means 30 seconds (100Hz) / 3 compornent <br> - Data starts **1 seconds** before of `itp`. |
+  | `data` | - event waveform data of one event / one station <br> - dataShape: **(3000, 3)** # means 30 seconds (100Hz) / 3 compornent *2 <br> - Data starts **1 seconds** before of `itp`. |
   | `itp` | the data point of **P phase** from the start of each npz waveform file |
   | `its` | the data point of **S phase** from the start of each npz waveform file |
   | `t0` | start time of waveform file |
@@ -109,7 +109,7 @@
 * continuous WIN waveform files
   * format: WIN format <br>
     For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
-  * **Only >=[OUTPUT_LENGTH (default: 60)] seconds and 100 Hz data is acceptable.** *2
+  * **Only 100 Hz data is acceptable.**
   * NIED provides 60 seconds of WIN waveform files. <br>
     For the detailed information, see https://hinetwww11.bosai.go.jp/auth/download/cont/?LANG=en
   * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there. <br>
@@ -119,7 +119,8 @@
 * event WIN waveform files
   * format: WIN format <br>
     For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
-  * **Only >=180 seconds and 100 Hz data is acceptable.** *2
+  * **Only 100 Hz data is acceptable.**
+  * **Recommend >=180 seconds of data. Otherwise part of data will be filled with 0.** *2
   * Make directry named `<base directory>/WIN2PhaseNet/data` and put the files there. <br>
     You can change the path with `--indir` option.
 
