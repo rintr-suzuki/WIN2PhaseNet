@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import argparse
+from multiprocessing import Pool
 
 from master import Config, MasterProcess
 from service import NpzConverter, NpzStationProcessor
@@ -33,60 +34,84 @@ def read_args():
    parser.add_argument('--filter', action='store_true', help='add band-pass filter process')
    parser.add_argument('--filprm', default='etc/filter.prm', help='path of filter configuration file (default: etc/filter.prm)')
 
-   # #number of thread
-   # parser.add_argument('--pooln', type=int, default=20, help='number of thread: default=20, multi thread processing is not ready..')
+   # multi-thread processing
+   parser.add_argument('--thread', type=int, help='number of thread (default: multiprocessing.cpu_count()*0.6)')
 
    args = parser.parse_args()
    return args
+
+def setConfigMap(fname, params):
+   config = Config(params)
+   config.set_fname(fname)
+   config.set_stndir()
+   config.set_outdir(False)
+   return config    
+
+def npzConverterMap(config):
+   npzConverter = NpzConverter(config)
+   npzConverter.to_npz()
+   return npzConverter
+
+def npzProcessorMap(npzConverter, config):
+   config.set_outdir(True)
+
+   for filetime in npzConverter.filetimeList:
+      npzProcessor = NpzStationProcessor(config, filetime)
+      npzProcessor.set_npz(npzConverter)
+      npzProcessor.set_time()
+      npzProcessor.cut_wave()
+      npzProcessor.to_npz()
+      npzProcessor.make_list()
+   return npzProcessor
+
+def setConfigMapWrapper(args):
+   return setConfigMap(*args)
+
+def npzConverterMapWrapper(args):
+   return npzConverterMap(args)
+
+def npzProcessorMapWrapper(args):
+   return npzProcessorMap(*args)
    
-def main(args):
+def main(params):
       # initial settings
       ## master setting
-      generalConfig = Config(args)
+      generalConfig = Config(params)
       masterProcess = MasterProcess(generalConfig)
 
-      for fname in generalConfig.files:
-         ## set config
-         config = Config(args)
-         config.set_fname(fname)
-         config.set_stndir()
-         config.set_outdir(False)
+      p = Pool(generalConfig.thread)
 
-         ## save config
+      ## set config
+      setConfigMapInput = [[fname, params] for fname in generalConfig.files]
+      setConfigMapOutput = p.map(setConfigMapWrapper, setConfigMapInput)
+
+      ## save config
+      for config in setConfigMapOutput:
          masterProcess.set_config(config)
 
       # convert win format into npz format
-      for fname in generalConfig.files:
-         ## load config
-         config = masterProcess.get_config(fname)
+      ## load config
+      npzConverterMapInput = [masterProcess.get_config(fname) for fname in generalConfig.files]
 
-         ## run npzConverter
-         npzConverter = NpzConverter(config)
-         npzConverter.to_npz()
+      ## run npzConverter
+      npzConverterMapOutput = p.map(npzConverterMapWrapper, npzConverterMapInput)
 
-         ## save npzConverter
+      ## save npzConverter
+      for npzConverter in npzConverterMapOutput:
          masterProcess.set_npzConverter(npzConverter)
 
       # add itp and its info to npz & make cut npz according to itp and its
-      for fname in generalConfig.files:
-         ## load config
-         config = masterProcess.get_config(fname)
-         config.set_outdir(True)
+      ## load config and npzConverter
+      npzProcessorMapInput = [[masterProcess.get_npzConverter(fname), \
+                               masterProcess.get_config(fname)] \
+                              for fname in generalConfig.files]
+      
+      ## run npzProcessor
+      npzProcessorMapOutput = p.map(npzProcessorMapWrapper, npzProcessorMapInput)
 
-         ## load npzConverter
-         npzConverter = masterProcess.get_npzConverter(fname)
-
-         ## run npzProcessor
-         for filetime in npzConverter.filetimeList:
-            npzProcessor = NpzStationProcessor(config, filetime)
-            npzProcessor.set_npz(npzConverter)
-            npzProcessor.set_time()
-            npzProcessor.cut_wave()
-            npzProcessor.to_npz()
-            npzProcessor.make_list()
-
-            ## save npzlist
-            masterProcess.set_npzList(npzProcessor)
+      ## save npzlist
+      for npzProcessor in npzProcessorMapOutput:
+         masterProcess.set_npzList(npzProcessor)
       
       # make data list
       masterProcess.to_csv()
@@ -95,5 +120,5 @@ def main(args):
       masterProcess.rm_tmp()
 
 if __name__ == '__main__':
-   args = vars(read_args()) # convert to dict
-   main(args)
+   params = vars(read_args()) # convert to dict
+   main(params)

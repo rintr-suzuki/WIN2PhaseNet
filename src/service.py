@@ -15,7 +15,7 @@ class NpzConverter(object):
         # super().__init__(fname, indir, outdir, params)
         self.indir = config.indir
         self.stndir = config.stndir
-        self.outdir = config.outdir
+        self.outdir = config.outnpzdir
 
         self.fname = config.fname #os.path.join(self.indir, fname)
         self.wavedata = WinWavedata(self.fname)
@@ -101,7 +101,7 @@ class NpzConverter(object):
 class NpzStationProcessor(object):
     def __init__(self, config, filetime):
         self.indir = config.indir
-        self.outdir = config.outdir
+        self.outdir = config.outnpzdir
 
         self.fname = config.fname #os.path.join(self.indir, fname)
         self.baseFname = config.baseFname

@@ -4,12 +4,13 @@
 ![](docs/assets/WIN2NPZ_overview.png)
  
 * Tool to make data for prediction and training of PhaseNet (Zhu and Beroza, 2019) from WIN/WIN32 (hereafter just 'WIN') format waveform file and pick list.
-* High-speed processing is possible through the use of fwin module (Maeda, 2019) written in **fortran**.
+* High-speed processing is possible through the use of fwin module (Maeda, 2019) written in **fortran** and **multi-thread processing**.
 * Easy to run on various OS by using **docker**.
 * Provides the simplified operating procedure for PhaseNet and a docker environment to run PhaseNet.
 
 ## Requirements
-* OS: Windows, macOS, Linux
+* OS <br>
+  Support Windows, macOS and Linux
 
 * (Only required for Windows) Git Bash <br>
   https://gitforwindows.org/ <br>

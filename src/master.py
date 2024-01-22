@@ -2,11 +2,15 @@ import copy
 import glob
 import os
 import pandas as pd
+from multiprocessing import cpu_count
 
 from model_stn import StationTable
 
 class Config(object):
     def __init__(self, args):
+        # 複数回実行されても問題ないように実装する
+        # set argsより下では初出のself変数のみ設定or初回のみif文がTrueになるようにする
+        ## set args
         for key, value in args.items():
             setattr(self, key, value)
 
@@ -16,25 +20,31 @@ class Config(object):
                 print("[Error: Pick list is missing]:", "Please specify pick list if mode is train or test, mode:", args['mode'])
                 exit(1)
 
-        ## set length
+        ## init input_length
         if (self.mode == 'train') or (self.mode == 'test'):
             self.input_length = 180 # to contain pick data
         elif self.mode == 'cont':
             self.input_length = self.output_length
 
-        ## set input files
-        # indir = args['indir']
+        ## init input files
         self.files = glob.glob(self.indir + "/*")
 
         ## set stnlst (if use --tbl2lst option)
         if self.tbl2lst:
             stntbl = StationTable()
-            stntbl.chtbl = self.chtbl
+            stntbl.chtbl = copy.deepcopy(self.chtbl)
             stntbl.tbl2lst(".tmp")
             self.stnlst = stntbl.stnlst
 
         ## set tmpdir
         self.tmpdir = ".tmp"
+
+        ## init thread
+        if self.thread == None:
+            self.thread = int(cpu_count()*0.6)
+        if self.thread > cpu_count():
+            self.thread = cpu_count()
+        print("[multi thread]: %d / %d threads" % (self.thread, cpu_count()))
 
         ## keep outdir name
         self.outdir0 = copy.deepcopy(self.outdir)
