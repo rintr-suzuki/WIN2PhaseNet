@@ -5,8 +5,7 @@ name=$1
 
 ## check OS
 OSname="Mac-Linux"
-which ipconfig 2>&1 >/dev/null # only exists Windows
-if [[ $? == 0 ]]; then # check exit code
+if [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "win32" ]]; then
     OSname="Windows"
 fi
 
