@@ -60,7 +60,7 @@ class NpzConverter(object):
 
     def to_npz(self):
         # win2npz
-        com = "./win2npz.x" \
+        com = "win2npz.x" \
             + ' -w %s' % self.wavedata.fname \
             + ' -s %s' % self.stnlst \
             + ' -k %s' % self.chtbl \

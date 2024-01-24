@@ -15,7 +15,6 @@ RUN yum install -y wget
 RUN yum install -y bzip2
 RUN yum install -y zip
 ## パッケージの解凍
-
 RUN tar xzfv gcc-9.2.0.tar.gz -C /usr/local/src
 ## コンパイルとインストール
 WORKDIR /usr/local/src/gcc-9.2.0/
@@ -33,8 +32,14 @@ RUN ldconfig -v
 # python3をインストールする
 WORKDIR /usr/local/src/
 RUN yum install -y python3
-RUN pip3 install pandas
-RUN pip3 install tqdm
+RUN pip3 install pandas tqdm
+
+# win2npzをインストールする
+COPY win2npz.tar.gz /usr/local/src/
+RUN tar xzfv win2npz.tar.gz -C /usr/local/src
+WORKDIR /usr/local/src/win2npz/
+RUN make
+ENV PATH $PATH:/usr/local/src/win2npz/
 
 WORKDIR /data/win2npz
 

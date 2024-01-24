@@ -21,7 +21,7 @@ fi
 
 if [[ $name == "win2npz" ]]; then
     # win2npz container
-    image_name='win2npz'; tag_name='latest'
+    image_name='win2npz'; tag_name='v1.4.2'
 
 elif [[ $name == "phasenet" ]]; then
     # phasenet container
@@ -46,7 +46,7 @@ workdir=`pwd`
 if [[ $name == "win2npz" ]]; then
     $docker_head docker run -it --rm \
     -v $workdir:/data/win2npz \
-    $image_name
+    $image_name:$tag_name
 
 elif [[ $name == "phasenet" ]] || [[ $name == "phasenet-old" ]]; then
     phasenetdir="$HOME/PhaseNet"
