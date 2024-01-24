@@ -1,9 +1,8 @@
 #image指定
-FROM python:3.7
+FROM tensorflow/tensorflow
 
 # pythonのライブラリをインストールする
-WORKDIR /usr/local/src/
-COPY requirements.txt /usr/local/src/
-RUN pip install -r requirements.txt
+RUN pip install tqdm obspy pandas 
+RUN pip install uvicorn fastapi
 
 WORKDIR /data/PhaseNet
