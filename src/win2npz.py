@@ -52,16 +52,14 @@ def npzConverterMap(config):
    npzConverter.to_npz()
    return npzConverter
 
-def npzProcessorMap(npzConverter, config):
+def npzProcessorMap(npzConverter, filetime, config):
    config.set_outdir(True)
-
-   for filetime in npzConverter.filetimeList:
-      npzProcessor = NpzStationProcessor(config, filetime)
-      npzProcessor.set_npz(npzConverter)
-      npzProcessor.set_time()
-      npzProcessor.cut_wave()
-      npzProcessor.to_npz()
-      npzProcessor.make_list()
+   npzProcessor = NpzStationProcessor(config, filetime)
+   npzProcessor.set_npz(npzConverter)
+   npzProcessor.set_time()
+   npzProcessor.cut_wave()
+   npzProcessor.to_npz()
+   npzProcessor.make_list()
    return npzProcessor
 
 def setConfigMapWrapper(args):
@@ -102,9 +100,11 @@ def main(params):
 
       # add itp and its info to npz & make cut npz according to itp and its
       ## load config and npzConverter
-      npzProcessorMapInput = [[masterProcess.get_npzConverter(fname), \
-                               masterProcess.get_config(fname)] \
-                              for fname in generalConfig.files]
+      npzProcessorMapInput = []
+      for fname in generalConfig.files:
+         npzConverter = masterProcess.get_npzConverter(fname)
+         for filetime in npzConverter.filetimeList:
+            npzProcessorMapInput.append([npzConverter, filetime, masterProcess.get_config(fname)])
       
       ## run npzProcessor
       npzProcessorMapOutput = p.map(npzProcessorMapWrapper, npzProcessorMapInput)

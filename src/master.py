@@ -100,9 +100,13 @@ class MasterProcess(object):
         self.npzlistList.append(npzProcessor.npzlist)
 
     def to_csv(self):
-        df = pd.concat(self.npzlistList)
-        outcsv = os.path.join(self.config.outdir, "npz.csv")
-        df.to_csv(outcsv, index=None)
+        if len(self.npzlistList) != 0:
+            df = pd.concat(self.npzlistList)
+            outcsv = os.path.join(self.config.outdir, "npz.csv")
+            df.to_csv(outcsv, index=None)
+        else:
+            print("[Error]: There is no WIN waveform to output. Please check requirements.")
+            exit()
 
     def rm_tmp(self):
         ext = ["lst", "npz"]

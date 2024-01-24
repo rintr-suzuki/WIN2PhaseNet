@@ -45,7 +45,7 @@ program win2npz
   integer :: yr, mo, dy, hr, mi, sc, jday
   character(20) ::npzfile
   integer       :: t_leng,length,overlap
-  character(7),   allocatable :: stn(:),stn1(:)
+  character(10),   allocatable :: stn(:),stn1(:)
   character(4),   allocatable :: chid_stn(:,:)
   integer :: ns,idatamax
   type(winch__hdr), allocatable :: ch_tbl(:)

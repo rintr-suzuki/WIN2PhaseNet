@@ -51,4 +51,4 @@ m_win.o: m_win.f90 m_util.o
 	$(FC) $(FFLAGS) $^ -o $@
 
 clean:
-	/bin/rm -f *.mod *.o ../*.x
+	/bin/rm -f *.mod *.o ./*.x
