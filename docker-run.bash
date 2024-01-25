@@ -25,7 +25,7 @@ if [[ $name == "win2npz" ]]; then
 
 elif [[ $name == "phasenet" ]]; then
     # phasenet container
-    image_name='phasenet'; tag_name='v1.2'
+    image_name='phasenet'; tag_name='v1.4.2'
 
 elif [[ $name == "phasenet-old" ]]; then
     # phasenet image for 'release' branch of PhaseNet
@@ -34,10 +34,13 @@ elif [[ $name == "phasenet-old" ]]; then
 fi
 
 ## pull image
-if ! $docker_head_images docker images --format '{{.Repository}}:{{.Tag}}' | grep -q "$image_name:$tag_name"; then
-    $docker_head docker pull ghcr.io/rintr-suzuki/docker-registry-win2phasenet/$image_name:$tag_name
-    $docker_head docker tag ghcr.io/rintr-suzuki/docker-registry-win2phasenet/$image_name:$tag_name $image_name:$tag_name
-    $docker_head docker image rm ghcr.io/rintr-suzuki/docker-registry-win2phasenet/$image_name:$tag_name
+if ! $docker_head_images docker images --format '{{.Repository}}:{{.Tag}}' | grep -q -x "$image_name:$tag_name"; then
+    # $docker_head docker pull ghcr.io/rintr-suzuki/docker-registry-win2phasenet/$image_name:$tag_name
+    # $docker_head docker tag ghcr.io/rintr-suzuki/docker-registry-win2phasenet/$image_name:$tag_name $image_name:$tag_name
+    # $docker_head docker image rm ghcr.io/rintr-suzuki/docker-registry-win2phasenet/$image_name:$tag_name
+    $docker_head docker pull rintrsuzuki/$image_name:$tag_name
+    $docker_head docker tag rintrsuzuki/$image_name:$tag_name $image_name:$tag_name
+    $docker_head docker rmi rintrsuzuki/$image_name:$tag_name
     # $docker_head docker load -i images/win2npz-image.tar
 fi
 
