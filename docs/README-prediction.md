@@ -1,6 +1,24 @@
 # WIN2PhaseNet
 Detailed usage for PhaseNet prediction
 
+## Brief usage
+### WIN2PhaseNet
+```
+$ ./docker-run.bash
+(container)$ ./WIN2PhaseNet.bash -m cont --tbl2lst
+(container)$ exit
+# See 'out' directory for the result.
+```
+
+### PhaseNet prediction
+```
+$ ./clone-PhaseNet.bash
+$ ./docker-run.bash phasenet
+(container)$ ./PhaseNet.bash --data_dir=out/npz --data_list=out/npz.csv
+(container)$ exit
+# See 'results' directory for the result.
+```
+
 ## What is the output?
 ### `cont` mode (For PhaseNet prediction)
 * npz waveform files: `npz/[datetime]_[station].npz` *1
@@ -75,10 +93,10 @@ Detailed usage for PhaseNet prediction
 $ ./docker-run.bash
 
 # Run WIN2PhaseNet on the container environment.
-(container)$ python3 src/win2npz.py --mode cont [--output_length OUTPUT_LENGTH] [--tbl2lst] [--rotation] [--filter]
+(container)$ ./WIN2PhaseNet.bash --mode cont [--output_length OUTPUT_LENGTH] [--tbl2lst] [--rotation] [--filter]
 # e.g. 
-# (container)$ python3 src/win2npz.py --mode cont # with both 'stn.lst' and 'stn.tbl'
-# (container)$ python3 src/win2npz.py --mode cont --tbl2lst # without 'stn.lst' (only 'stn.tbl')
+# (container)$ ./WIN2PhaseNet.bash --mode cont # with both 'stn.lst' and 'stn.tbl'
+# (container)$ ./WIN2PhaseNet.bash --mode cont --tbl2lst # without 'stn.lst' (only 'stn.tbl')
 
 # Exit the container environment after execution is complete.
 (container)$ exit
@@ -92,27 +110,23 @@ This program **NOT** contains PhaseNet but show how to use PhaseNet briefly. <br
 
 #### Download PhaseNet
 ```
-$ cd <base directory> # return to base directory
-$ git clone https://github.com/AI4EPS/PhaseNet.git
-$ cd PhaseNet
-$ git checkout -b v1.2 f119e28
+$ ./clone-PhaseNet.bash
 ```
 
 #### Execute prediction
 ```
 # Pull docker image and run the 'phasenet' container. *3
-$ cd <base directory>/WIN2PhaseNet # return to WIN2PhaseNet directory
 $ ./docker-run.bash phasenet
 
 # Run PhaseNet on the container environment.
-(container)$ python phasenet/predict.py --model_dir=model/190703-214543 --data_dir=<"npz waveform files" directory path of WIN2PhaseNet> --data_list=<"npz waveform list" path of WIN2PhaseNet> --amplitude --plot_figure
+(container)$ ./PhaseNet.bash --data_dir=<"npz waveform files" directory path of WIN2PhaseNet> --data_list=<"npz waveform list" path of WIN2PhaseNet>
 # e.g. 
-# (container)$ python phasenet/predict.py --model_dir=model/190703-214543 --data_dir=../WIN2PhaseNet/out/npz --data_list=../WIN2PhaseNet/out/npz.csv --amplitude --plot_figure
+# (container)$ ./PhaseNet.bash --data_dir=./out/npz --data_list=./out/npz.csv
 
 # Exit the container environment after execution is complete.
 (container)$ exit
 
-# You can find the output of PhaseNet in '<base directory>/PhaseNet/results' directory.
+# You can find the output of PhaseNet in '<base directory>/WIN2PhaseNet/results' directory.
 ```
 
 ## Notes

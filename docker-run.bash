@@ -25,7 +25,7 @@ if [[ $name == "win2npz" ]]; then
 
 elif [[ $name == "phasenet" ]]; then
     # phasenet container
-    image_name='phasenet'; tag_name='v1.4.2'
+    image_name='phasenet'; tag_name='v1.4.3'
 
 elif [[ $name == "phasenet-old" ]]; then
     # phasenet image for 'release' branch of PhaseNet

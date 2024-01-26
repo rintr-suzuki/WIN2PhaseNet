@@ -1,6 +1,15 @@
 # WIN2PhaseNet
 Detailed usage for PhaseNet training
 
+## Brief usage
+### WIN2PhaseNet
+```
+$ ./docker-run.bash
+(container)$ ./WIN2PhaseNet.bash -m train -l picks.csv
+(container)$ exit
+# See 'out' directory for the result.
+```
+
 ## What is the output?
 ### 1. `train` mode (For PhaseNet training and validation)
 * npz waveform files: `npz/[datetime]_[station].npz` *1
@@ -103,10 +112,10 @@ Detailed usage for PhaseNet training
 $ ./docker-run.bash
 
 # Run WIN2PhaseNet on the container environment.
-(container)$ python3 src/win2npz.py --mode {train,test} --list LIST [--output_length OUTPUT_LENGTH] [--tbl2lst] [--rotation] [--filter]
+(container)$ ./WIN2PhaseNet.bash --mode {train,test} --list LIST [--output_length OUTPUT_LENGTH] [--tbl2lst] [--rotation] [--filter]
 # e.g. 
-# (container)$ python3 src/win2npz.py --mode train --list picks.csv
-# (container)$ python3 src/win2npz.py --mode test --list picks.csv
+# (container)$ ./WIN2PhaseNet.bash --mode train --list picks.csv
+# (container)$ ./WIN2PhaseNet.bash --mode test --list picks.csv
 
 # Exit the container environment after execution is complete.
 (container)$ exit

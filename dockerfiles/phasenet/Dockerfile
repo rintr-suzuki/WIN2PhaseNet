@@ -6,5 +6,5 @@ RUN pip install tqdm obspy pandas
 RUN pip install uvicorn fastapi
 
 # ライセンスの添付
-WORKDIR /data/PhaseNet
+WORKDIR /data/WIN2PhaseNet
 COPY LICENSE /
