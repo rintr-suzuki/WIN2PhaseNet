@@ -52,7 +52,7 @@ if [[ $name == "win2npz" ]]; then
     $image_name:$tag_name
 
 elif [[ $name == "phasenet" ]] || [[ $name == "phasenet-old" ]]; then
-    phasenetdir="$HOME/PhaseNet"
+    phasenetdir="../PhaseNet"
     $docker_head docker run -it --rm \
     -v $phasenetdir:/data/PhaseNet \
     -v $workdir:/data/WIN2PhaseNet \
