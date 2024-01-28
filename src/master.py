@@ -115,7 +115,7 @@ class MasterProcess(object):
             exit()
 
     def rm_tmp(self):
-        ext = ["lst", "npz"]
+        ext = ["lst", "tbl", "npz"]
 
         l = []
         for s in ext:
