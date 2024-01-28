@@ -53,6 +53,10 @@ $ ./docker-run.bash phasenet
 * channel table: correspondence Table of stations and their code
   * format: txt format <br>
     For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.ja/win.html (only in Japanese).
+  * **Only support the following "component code (column [5])"**. <br>
+    -Vertical compornent: EW,E,X,VX <br>
+    -Horizontal compornent 1: NS,N,Y,VY <br>
+    -Horizontal compornent 2: UD,U,Z,VZ
   * NIED provides channel table at the same time when downloading WIN waveform files. <br>
     For the detailed information, see https://hinetwww11.bosai.go.jp/auth/download/cont/?LANG=en
   * Put the file as `<base directory>/WIN2PhaseNet/etc/stn.tbl`. <br>
