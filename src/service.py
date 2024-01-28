@@ -34,14 +34,13 @@ class NpzConverter(object):
             pass
         with open(each_stnlst, 'a') as f:
             for stn_value in stn_df[0]:
-                if stn_value not in ["N.HD2H", "N.MORH", "N.TRUH"]: #3成分そろっていない等で使えない観測点は除く
-                    if listname is not None:
-                        if len(df[(df['win_name'] == baseFname) & (df['station'] == stn_value)]) == 0:
-                            # To save time, only convert paticular station with picks if there is pick listpython
-                            continue
-                    f.write(stn_value)
-                    f.write("\n")
-                    each_stnlst_list.append(stn_value)
+                if listname is not None:
+                    if len(df[(df['win_name'] == baseFname) & (df['station'] == stn_value)]) == 0:
+                        # To save time, only convert paticular station with picks if there is pick listpython
+                        continue
+                f.write(stn_value)
+                f.write("\n")
+                each_stnlst_list.append(stn_value)
     
         self.stnlst = each_stnlst
         self.stations = each_stnlst_list

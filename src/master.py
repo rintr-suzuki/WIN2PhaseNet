@@ -4,7 +4,7 @@ import os
 import pandas as pd
 from multiprocessing import cpu_count
 
-from model_stn import StationTable
+from model_stn import StationTable, ChannelTable
 
 class Config(object):
     def __init__(self, args):
@@ -28,6 +28,12 @@ class Config(object):
 
         ## init input files
         self.files = glob.glob(self.indir + "/*")
+
+        ## set chlst
+        chtbl = ChannelTable()
+        chtbl.chtbl0 = copy.deepcopy(self.chtbl)
+        chtbl.screening(".tmp")
+        self.chtbl = chtbl.chtbl
 
         ## set stnlst (if use --tbl2lst option)
         if self.tbl2lst:

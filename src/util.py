@@ -25,12 +25,5 @@ def load_csv(fname, header='infer'):
             print("[Error: Duplicated row is not acceptable]:", fname)
             print(df[duplicated_flag])
             exit(1)
-    
-    # stnlistに入れていてもNpzConverterで無視されてしまう観測点が入っている場合は警告
-    if 'station' in df.columns:
-        for station in df['station'].values:
-            if station in ["N.HD2H", "N.MORH", "N.TRUH"]:
-                print("[Warn: NpzConverter ignores paticular stations]:", station, '(at least)')
-                break
 
     return df
