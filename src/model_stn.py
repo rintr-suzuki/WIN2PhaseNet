@@ -2,30 +2,14 @@ import os
 import pandas as pd
 
 class StationTable(object):
-    def __init__(self):
-        self.stnlst = None
-        self.chtbl = None
+    def __init__(self, chtbl0, stnlst0):
+        self.chtbl0 = chtbl0
+        self.stnlst0 = stnlst0
 
-    def tbl2lst(self, outdir):
-        # read
-        df = pd.read_csv(self.chtbl, header=None)
-        df = df[~df.iloc[:, 0].str.startswith('#')] # delete comment line
-        df = df[0].str.split(expand=True)
-        stn_list = list(set(df[3].values))
+        self.chtbl = chtbl0
+        self.stnlst = stnlst0
 
-        # write
-        self.stnlst = os.path.join(outdir, "stn.lst")
-        stnlst = self.stnlst
-        with open(stnlst, 'w') as f:
-            f.write('\n'.join(sorted(stn_list)))
-            f.write('\n')    
-
-class ChannelTable(object):
-    def __init__(self):
-        self.chtbl0 = None
-        self.chtbl = None
-    
-    def screening(self, outdir):
+    def screeningTbl(self, outdir):
         # read
         # print(self.chtbl0)
         df = pd.read_csv(self.chtbl0, header=None)
@@ -52,8 +36,46 @@ class ChannelTable(object):
         # print diff
         diff_df = pd.concat([df1, df2])
         if len(diff_df.index) != 0:
-            print("[Warn: NpzConverter ignores paticular stations]: \n", diff_df)
+            print("[Warn: NpzConverter ignores paticular stations in chtbl]: \n", diff_df)
 
         # write
         self.chtbl = os.path.join(outdir, "stn.tbl")
         df.to_csv(self.chtbl, sep=" ", header=None, index=None)
+
+    def tbl2lst(self, outdir):
+        # read
+        df = pd.read_csv(self.chtbl, header=None)
+        df = df[~df.iloc[:, 0].str.startswith('#')] # delete comment line
+        df = df[0].str.split(expand=True)
+        stn_list = list(set(df[3].values))
+
+        # write
+        self.stnlst = os.path.join(outdir, "stn.lst")
+        stnlst = self.stnlst
+        with open(stnlst, 'w') as f:
+            f.write('\n'.join(sorted(stn_list)))
+            f.write('\n')
+
+    def screeningLst(self, outdir):
+        # read
+        lst = pd.read_csv(self.stnlst0, header=None)
+        lst = lst[~lst.iloc[:, 0].str.startswith('#')] # delete comment line
+
+        tbl = pd.read_csv(self.chtbl, header=None)
+        tbl = tbl[~tbl.iloc[:, 0].str.startswith('#')] # delete comment line
+        tbl = tbl[0].str.split(expand=True)
+        tblStnLst = list(set(tbl[3].values))
+
+        # Delete stations which is not contained in chtbl
+        flag = lst[0].isin(tblStnLst)
+        lst0 = lst[flag]
+        lst1 = lst[~flag]
+
+        # print diff
+        diff_df = lst1
+        if len(diff_df.index) != 0:
+            print("[Warn: NpzConverter ignores paticular stations in stnlst]: \n", list(diff_df[0].values))
+
+        # write
+        self.stnlst = os.path.join(outdir, "stn.lst")
+        lst0.to_csv(self.stnlst, sep=" ", header=None, index=None)

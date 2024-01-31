@@ -61,14 +61,6 @@ $ ./docker-run.bash
   * Put the file at `<base directory>/WIN2PhaseNet`.
   * sample: `<base directory>/WIN2PhaseNet/sample/picks.csv`
 
-* station list: a list of stations to process
-  * format: txt format
-  * **Only stations listed in the channel table are allowed to be listed in.** <br>
-    You can automatically set all the stations in the channel table as a station list with `--tbl2lst` option, instead of preparing a txt file of station list.
-  * Put the file as `<base directory>/WIN2PhaseNet/etc/stn.lst`. <br>
-    You can change the path with `--stnlst` option.
-  * sample: `<base directory>/WIN2PhaseNet/sample/etc/stn.lst`
-
 * channel table: correspondence Table of stations and their code
   * format: txt format <br>
     For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.ja/win.html (only in Japanese).
@@ -80,6 +72,13 @@ $ ./docker-run.bash
     For the detailed information, see https://hinetwww11.bosai.go.jp/auth/download/cont/?LANG=en
   * Put the file as `<base directory>/WIN2PhaseNet/etc/stn.tbl`. <br>
     You can change the path with `--chtbl` option.
+
+* (No need in case with `--tbl2lst`)station list: a list of stations to process
+  * format: txt format
+  * You can automatically set all the stations in the channel table as a station list with `--tbl2lst` option, instead of preparing a txt file of station list.
+  * Put the file as `<base directory>/WIN2PhaseNet/etc/stn.lst`. <br>
+    You can change the path with `--stnlst` option.
+  * sample: `<base directory>/WIN2PhaseNet/sample/etc/stn.lst`
 
 * (optional)rotation table: rotation coefficient table for S-net by Takagi et al. (2019).
   * format: txt format <br>
