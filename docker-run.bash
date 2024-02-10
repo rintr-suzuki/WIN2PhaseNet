@@ -21,7 +21,7 @@ fi
 
 if [[ $name == "win2npz" ]]; then
     # win2npz container
-    image_name='win2npz'; tag_name='v1.4.2'
+    image_name='win2npz'; tag_name='v1.4.7'
 
 elif [[ $name == "phasenet" ]]; then
     # phasenet container

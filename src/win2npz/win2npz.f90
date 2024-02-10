@@ -227,7 +227,7 @@ program win2npz
   !> Read the data
   !--
   block
-    integer :: i, j
+    integer :: i, j, jj
     integer :: tim
     !----
 !c    print *,"nch=",nch
@@ -239,6 +239,7 @@ program win2npz
     allocate( dat(fsmax*fwmax*nw,nch) ) !! initial size
     dat(:,:) = 0
 
+    jj=1
     do i=1, nw
       call win__read_file(fn_win(i), chid, sfreq, nsec, tim, dat0, npts)
       if (i.eq.1) tim0=tim
@@ -250,7 +251,8 @@ program win2npz
         endif
         if( sfreq(j) > 0 ) then
 !c           print *,"nsec=",nsec
-           dat( (i-1)*sfreq(j)*nsec+1:i*sfreq(j)*nsec, j) = dat0(1:sfreq(j)*nsec,j)
+           dat( (i-1)*sfreq(j)*nsec+1:i*sfreq(j)*nsec, jj) = dat0(1:sfreq(j)*nsec,j)
+           jj=jj+1
         end if
       end do   
 
