@@ -227,7 +227,7 @@ program win2npz
   !> Read the data
   !--
   block
-    integer :: i, j, jj
+    integer :: i, j
     integer :: tim
     !----
 !c    print *,"nch=",nch
@@ -239,7 +239,6 @@ program win2npz
     allocate( dat(fsmax*fwmax*nw,nch) ) !! initial size
     dat(:,:) = 0
 
-    jj=1
     do i=1, nw
       call win__read_file(fn_win(i), chid, sfreq, nsec, tim, dat0, npts)
       if (i.eq.1) tim0=tim
@@ -251,8 +250,7 @@ program win2npz
         endif
         if( sfreq(j) > 0 ) then
 !c           print *,"nsec=",nsec
-           dat( (i-1)*sfreq(j)*nsec+1:i*sfreq(j)*nsec, jj) = dat0(1:sfreq(j)*nsec,j)
-           jj=jj+1
+           dat( (i-1)*sfreq(j)*nsec+1:i*sfreq(j)*nsec, j) = dat0(1:sfreq(j)*nsec,j)
         end if
       end do   
 
@@ -264,7 +262,7 @@ program win2npz
   !> Export
   !--  
   block
-    integer :: i, j, io, k, kk
+    integer :: i, j, io, k
     character(80) :: fn_asc, fn_asc0
     real(8),allocatable      :: x(:),y(:),z(:)
     character(4) :: yr_
@@ -275,7 +273,6 @@ program win2npz
         if(mod(nsec*nw,t_leng-overlap).ne.0) inpzfile=inpzfile+1
 !c        print *,"inpzfile= ",inpzfile
 !-----------
-    kk=1
     do k=1,ns ! for all stations
 !        print *,"k= ",k
 !        print *,"sfreq((k-1)*3+1)==",sfreq((k-1)*3+1)
@@ -306,27 +303,27 @@ program win2npz
         if(i.ne.inpzfile)then
 !         length=t_leng*sfreq((k-1)*3+1)
          if(norder.gt.0)then
-           b1(j)=dat((j-1)*iresamp+1+(i-1)*length*iresamp,(kk-1)*3+3)
-           b2(j)=dat((j-1)*iresamp+1+(i-1)*length*iresamp,(kk-1)*3+2)
-           b3(j)=dat((j-1)*iresamp+1+(i-1)*length*iresamp,(kk-1)*3+1)
+           b1(j)=dat((j-1)*iresamp+1+(i-1)*length*iresamp,(k-1)*3+3)
+           b2(j)=dat((j-1)*iresamp+1+(i-1)*length*iresamp,(k-1)*3+2)
+           b3(j)=dat((j-1)*iresamp+1+(i-1)*length*iresamp,(k-1)*3+1)
          else
           do j=1,length
-!          print *,i,j,kk
-           b(j,3)=dble(dat((j-1)*iresamp+1+(i-1)*length*iresamp,(kk-1)*3+3))
-           b(j,2)=dble(dat((j-1)*iresamp+1+(i-1)*length*iresamp,(kk-1)*3+2))
-           b(j,1)=dble(dat((j-1)*iresamp+1+(i-1)*length*iresamp,(kk-1)*3+1))
+!          print *,i,j
+           b(j,3)=dble(dat((j-1)*iresamp+1+(i-1)*length*iresamp,(k-1)*3+3))
+           b(j,2)=dble(dat((j-1)*iresamp+1+(i-1)*length*iresamp,(k-1)*3+2))
+           b(j,1)=dble(dat((j-1)*iresamp+1+(i-1)*length*iresamp,(k-1)*3+1))
           end do
          end if
 !         print *,"check"
         else
 !         print *,"check2"
          do j=1,length
-!          print *,"2",i,j,kk
+!          print *,"2",i,j
          if(norder.gt.0)then
            if(((j-1)*iresamp+1+(i-1)*length).le.idatamax)then
-           b1(j)=dat((j-1)*iresamp+1+(i-1)*length*iresamp,(kk-1)*3+3)
-           b2(j)=dat((j-1)*iresamp+1+(i-1)*length*iresamp,(kk-1)*3+2)
-           b3(j)=dat((j-1)*iresamp+1+(i-1)*length*iresamp,(kk-1)*3+1)
+           b1(j)=dat((j-1)*iresamp+1+(i-1)*length*iresamp,(k-1)*3+3)
+           b2(j)=dat((j-1)*iresamp+1+(i-1)*length*iresamp,(k-1)*3+2)
+           b3(j)=dat((j-1)*iresamp+1+(i-1)*length*iresamp,(k-1)*3+1)
            else
            b1(j)=0.0
            b2(j)=0.0
@@ -334,9 +331,9 @@ program win2npz
            end if
          else
           if(((j-1)*iresamp+1+(i-1)*length).le.idatamax)then
-           b(j,3)=dble(dat((j-1)*iresamp+1+(i-1)*length*iresamp,(kk-1)*3+3))
-           b(j,2)=dble(dat((j-1)*iresamp+1+(i-1)*length*iresamp,(kk-1)*3+2))
-           b(j,1)=dble(dat((j-1)*iresamp+1+(i-1)*length*iresamp,(kk-1)*3+1))
+           b(j,3)=dble(dat((j-1)*iresamp+1+(i-1)*length*iresamp,(k-1)*3+3))
+           b(j,2)=dble(dat((j-1)*iresamp+1+(i-1)*length*iresamp,(k-1)*3+2))
+           b(j,1)=dble(dat((j-1)*iresamp+1+(i-1)*length*iresamp,(k-1)*3+1))
           else
            b(j,3)=0.0
            b(j,2)=0.0
@@ -408,7 +405,6 @@ program win2npz
         deallocate(z)
       end if
       deallocate(b)
-      kk=kk+1
      else
         print *,"Error: Data for ",stn(k)," could note be found."
      end if
