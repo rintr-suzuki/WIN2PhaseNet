@@ -59,16 +59,31 @@ class NpzWavedata(Wavedata):
         self.t0 = self.__t0_dt.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
 
 class NpzStationWavedata(NpzWavedata):
-    def __init__(self, fname, npzConverter, filetime):
+    def __init__(self, fname, npzConverter, filetime, chtbl):
         super().__init__(fname, filetime)
 
         npzdict = {}
         stnlist = npzConverter.stations[filetime]
         npzdata = []
-        for fname in npzConverter.outfiles[filetime]:
+        for id, fname in zip(stnlist, npzConverter.outfiles[filetime]):
+            ## load
             meta = load_npz(fname)
             if np.all(meta[-100:, :] == 0):
                 print("[NpzStationWavedata.__init__]:[WARN] some data filled with 0. file =", fname)
+
+            ## correct amplitude
+            # 観測点の各補正値をチャンネルから呼び出す
+            chtbl_EW = chtbl[(chtbl[3] == id) & (chtbl[4].isin(['EW', 'E', 'X', 'VX']))].values[0]
+            chtbl_NS = chtbl[(chtbl[3] == id) & (chtbl[4].isin(['NS', 'N', 'Y', 'VY']))].values[0]
+            chtbl_UD = chtbl[(chtbl[3] == id) & (chtbl[4].isin(['UD', 'U', 'Z', 'VZ']))].values[0]
+
+            # 補正 #12: 1量子化ステップ[V], 7: センサー感度[V/(m/s)], 11: 増幅率[dB]
+            corr_func = lambda x: float(x[12])/(float(x[7])*pow(10.0, float(x[11])/20.0))
+            coefficients = np.array([corr_func(chtbl_EW), corr_func(chtbl_NS), corr_func(chtbl_UD)])
+
+            meta = meta * coefficients
+
+            ## write
             npzdata.append(meta)
         for key, value in zip(stnlist, npzdata):
                 npzdict[key] = value

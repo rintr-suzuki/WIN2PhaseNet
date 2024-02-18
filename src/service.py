@@ -110,6 +110,8 @@ class NpzStationProcessor(object):
         self.mode = config.mode
         self.list = config.list
 
+        self.chtbl_df = config.chtbl_df
+
         self.skip_flag = False
         if (self.mode == 'train') or (self.mode == 'test'):
             if self.ifiletime > 0:
@@ -120,7 +122,7 @@ class NpzStationProcessor(object):
         mode = self.mode
 
         if not self.skip_flag:
-            self.wavedata = NpzStationWavedata(self.fname, npzConverter, self.filetime) #stations, outfiles->npzdataとして格納
+            self.wavedata = NpzStationWavedata(self.fname, npzConverter, self.filetime, self.chtbl_df) #stations, outfiles->npzdataとして格納
             print("[NpzProcessor.set_npz]:", self.wavedata.baseFname, self.wavedata.filetime, "stations:", len(self.wavedata.npzdata.keys()))
         else:
             print("[NpzProcessor.set_npz]: skipped. mode =", mode)

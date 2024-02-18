@@ -34,6 +34,7 @@ class Config(object):
         stntbl.screeningTbl(".tmp")
 
         self.chtbl = stntbl.chtbl
+        self.chtbl_df = stntbl.chtbl_df
 
         ## set stnlst
         if self.tbl2lst:

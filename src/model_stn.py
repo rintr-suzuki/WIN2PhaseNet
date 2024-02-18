@@ -9,6 +9,11 @@ class StationTable(object):
         self.chtbl = chtbl0
         self.stnlst = stnlst0
 
+        self.chtbl_df = None
+        self.stnlst_l = None
+
+        self.stnrealtbl = None
+
     def screeningTbl(self, outdir):
         # read
         # print(self.chtbl0)
@@ -39,6 +44,9 @@ class StationTable(object):
             print("[Warn: NpzConverter ignores paticular stations in chtbl]: \n", diff_df)
 
         # write
+        self.chtbl_df = df
+        # self.stnlst_l = None
+
         self.chtbl = os.path.join(outdir, "stn.tbl")
         df.to_csv(self.chtbl, sep=" ", header=None, index=None)
 
@@ -50,6 +58,8 @@ class StationTable(object):
         stn_list = list(set(df[3].values))
 
         # write
+        self.stnlst_l = stn_list
+
         self.stnlst = os.path.join(outdir, "stn.lst")
         stnlst = self.stnlst
         with open(stnlst, 'w') as f:
@@ -77,5 +87,33 @@ class StationTable(object):
             print("[Warn: NpzConverter ignores paticular stations in stnlst]: \n", list(diff_df[0].values))
 
         # write
+        # self.stnlst_l = lst0[0].values[0]
+
         self.stnlst = os.path.join(outdir, "stn.lst")
         lst0.to_csv(self.stnlst, sep=" ", header=None, index=None)
+        
+    def tbl2realtbl(self, outdir):
+        # read
+        df = pd.read_csv(self.chtbl, header=None)
+        df = df[~df.iloc[:, 0].str.startswith('#')] # delete comment line
+        df = df[0].str.split(expand=True)
+        # stn_list = list(set(df[3].values))
+
+        # select and add columns
+        df = df[[3, 13, 14, 15]]
+        df.columns = ['id', 'lat', 'lon', 'alt']
+
+        df['net'] = 'net'
+        df['unit'] = 'V'
+        df['alt'] = df['alt'].map(lambda x: float(str(x))/1000)
+        df['corr_p'] = 0
+        df['corr_s'] = 0
+        df = df.astype(str)
+
+        df = df[['lon', 'lat', 'net', 'id', 'unit', 'alt', 'corr_p', 'corr_s']]
+
+        df = df[~df.duplicated(subset='id')]
+
+        # write
+        self.stnrealtbl = os.path.join(outdir, "station.dat")
+        df.to_csv(self.stnrealtbl, sep=" ", header=None, index=None)
