@@ -29,6 +29,10 @@ class Config(object):
         ## init input files
         self.files = glob.glob(self.indir + "/*")
 
+        ## set tmpdir
+        self.tmpdir = ".tmp"
+        os.makedirs(self.tmpdir, exist_ok=True)
+
         ## set chlst
         stntbl = StationTable(self.chtbl, self.stnlst)
         stntbl.screeningTbl(".tmp")
@@ -43,9 +47,6 @@ class Config(object):
             stntbl.screeningLst(".tmp")
 
         self.stnlst = stntbl.stnlst
-
-        ## set tmpdir
-        self.tmpdir = ".tmp"
 
         ## init thread
         if self.thread == None:
