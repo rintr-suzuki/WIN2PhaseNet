@@ -29,12 +29,25 @@
     $ sudo docker -v # confirm installation
     ```
 ## Usage
-* Download repository
+* Installation
   ```
-  $ cd <base directory> # move to any directory (base directory) to clone WIN2PhaseNet
   $ git clone https://github.com/rintr-suzuki/WIN2PhaseNet.git
   $ cd WIN2PhaseNet
   ```
+
+* Execution
+  ### WIN2PhaseNet
+  ```
+  $ ./WIN2PhaseNet.bash -m cont --tbl2lst
+  # See 'out' directory for the result.
+  ```
+
+  ### PhaseNet prediction
+  ```
+  $ ./PhaseNet.bash --data_dir=out/npz --data_list=out/npz.csv --plot_figure
+  # See 'results' directory for the result.
+  ```
+
 * See following documents for the detailed information. <br>
   For PhaseNet prediction, see [here](docs/README-prediction.md). <br>
   For PhaseNet training, see [here](docs/README-training.md). <br>
