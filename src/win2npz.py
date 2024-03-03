@@ -40,13 +40,6 @@ def read_args():
    args = parser.parse_args()
    return args
 
-def setConfigMap(fname, params):
-   config = Config(params)
-   config.set_fname(fname)
-   config.set_stndir()
-   config.set_outdir(False)
-   return config    
-
 def npzConverterMap(config):
    npzConverter = NpzConverter(config)
    npzConverter.to_npz()
@@ -61,9 +54,6 @@ def npzProcessorMap(npzConverter, filetime, config):
    npzProcessor.to_npz()
    npzProcessor.make_list()
    return npzProcessor
-
-def setConfigMapWrapper(args):
-   return setConfigMap(*args)
 
 def npzConverterMapWrapper(args):
    return npzConverterMap(args)
@@ -80,11 +70,11 @@ def main(params):
       p = Pool(generalConfig.thread)
 
       ## set config
-      setConfigMapInput = [[fname, params] for fname in generalConfig.files]
-      setConfigMapOutput = p.map(setConfigMapWrapper, setConfigMapInput)
-
-      ## save config
-      for config in setConfigMapOutput:
+      for fname in generalConfig.files:
+         config = Config(params)
+         config.set_fname(fname)
+         config.set_stndir()
+         config.set_outdir(False)
          masterProcess.set_config(config)
 
       # convert win format into npz format
