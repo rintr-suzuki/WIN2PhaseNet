@@ -49,7 +49,7 @@ if ! $docker_head_images docker images --format '{{.Repository}}:{{.Tag}}' | gre
 fi
 
 ### stop old container if exists
-$docker_head docker stop $container_name 2> /dev/null || true
+$docker_head docker stop $container_name > /dev/null 2>&1 || true
 
 ## run container
 $docker_head docker run -itd --rm \
