@@ -92,9 +92,9 @@ This program **NOT** contains PhaseNet but show how to use PhaseNet briefly. <br
 # Clone PhaseNet and pull docker image at first. (only once) *3
 # Run the 'phasenet' container and then execute PhaseNet on the container environment.
 # Stop and delete the container environment after execution is complete.
-$ ./PhaseNet.bash --data_dir=<"npz waveform files" directory path of WIN2PhaseNet> --data_list=<"npz waveform list" path of WIN2PhaseNet> --plot_figure
+$ ./PhaseNet.bash --model_dir=src/PhaseNet/model/190703-214543 --data_dir=<"npz waveform files" directory path of WIN2PhaseNet> --data_list=<"npz waveform list" path of WIN2PhaseNet> --amplitude --plot_figure
 # e.g. 
-# $ ./PhaseNet.bash --data_dir=./out/npz --data_list=./out/npz.csv --plot_figure
+# $ ./PhaseNet.bash --model_dir=src/PhaseNet/model/190703-214543 --data_dir=./out/npz --data_list=./out/npz.csv --amplitude --plot_figure
 
 # You can find the output of PhaseNet in 'WIN2PhaseNet/results' directory.
 ```

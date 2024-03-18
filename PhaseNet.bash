@@ -54,7 +54,7 @@ $volume \
 $image_name:$tag_name
 
 ## exec REALAssociator
-$docker_head docker exec -it -w $workdir $container_name python src/PhaseNet/phasenet/predict.py --model_dir=src/PhaseNet/model/190703-214543 --amplitude $args
+$docker_head docker exec -it -w $workdir $container_name python src/PhaseNet/phasenet/predict.py $args
 
 ## stop container
 $docker_head docker stop $container_name

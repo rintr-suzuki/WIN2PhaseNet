@@ -44,7 +44,7 @@
 
   ### PhaseNet prediction
   ```
-  $ ./PhaseNet.bash --data_dir=out/npz --data_list=out/npz.csv --plot_figure
+  $ ./PhaseNet.bash --model_dir=src/PhaseNet/model/190703-214543 --data_dir=out/npz --data_list=out/npz.csv --amplitude --plot_figure
   # See 'results' directory for the result.
   ```
 
