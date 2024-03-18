@@ -52,6 +52,8 @@
   For PhaseNet prediction, see [here](docs/README-prediction.md). <br>
   For PhaseNet training, see [here](docs/README-training.md). <br>
 
+* See [here](docs/Tips.md) for the tips of this tool.
+
 ## Acknowledgements
 A part of this program was created by Uchida, N and Matsuzawa, T.
 
