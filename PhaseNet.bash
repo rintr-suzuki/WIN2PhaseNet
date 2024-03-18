@@ -3,6 +3,7 @@
 ## def names
 image_name='phasenet'; tag_name='v1.4.4'
 container_name='phasenet-1'
+app_name='python src/PhaseNet/phasenet/predict.py'
 
 ## clone PhaseNet
 file="src/PhaseNet/phasenet/predict.py"
@@ -47,14 +48,23 @@ if ! $docker_head_images docker images --format '{{.Repository}}:{{.Tag}}' | gre
     $docker_head docker rmi rintrsuzuki/$image_name:$tag_name
 fi
 
+### stop old container if exists
+$docker_head docker stop $container_name 2> /dev/null || true
+
 ## run container
 $docker_head docker run -itd --rm \
 $volume \
 --name $container_name \
 $image_name:$tag_name
 
-## exec REALAssociator
-$docker_head docker exec -it -w $workdir $container_name python src/PhaseNet/phasenet/predict.py $args
+if [[ $1 == "DEBUG" ]]; then
+    ### attach container as DEBUG mode
+    $docker_head docker exec -it -w $workdir $container_name bash
 
-## stop container
-$docker_head docker stop $container_name
+else
+    ### exec app
+    $docker_head docker exec -it -w $workdir $container_name $app_name $args
+
+    ### stop container
+    $docker_head docker stop $container_name
+fi
