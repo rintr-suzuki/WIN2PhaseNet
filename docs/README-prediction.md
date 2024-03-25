@@ -33,6 +33,7 @@ Detailed usage for PhaseNet prediction
     -Horizontal compornent 2: UD,U,Z,VZ
   * NIED provides channel table at the same time when downloading WIN waveform files. <br>
     For the detailed information, see https://hinetwww11.bosai.go.jp/auth/download/cont/?LANG=en
+  * **"Voltage amplification ratio (column [12])" is modified to the int value.**
   * Put the file as `WIN2PhaseNet/etc/stn.tbl`. <br>
     You can change the path with `--chtbl` option.
 
