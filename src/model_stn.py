@@ -1,12 +1,6 @@
 import os
 import pandas as pd
 
-import codecs
-## for test to print shift-jis ##
-# import sys
-# import io
-# sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-
 class StationTable(object):
     def __init__(self, chtbl0, stnlst0):
         self.chtbl0 = chtbl0
@@ -23,28 +17,10 @@ class StationTable(object):
     def screeningTbl(self, outdir):
         # read
         # print(self.chtbl0)
-        ## read file
-        meta_list = []
-        with codecs.open(self.chtbl0, 'r', 'utf-8', 'replace') as file:
-            for raw in file:
-                columns = raw.split()[:18]
-                meta = " ".join(columns)
-                if not meta.startswith('#'): # delete comment line
-                    meta_list.append(meta)
-        df = pd.DataFrame({0: meta_list})
-
+        df = pd.read_csv(self.chtbl0, header=None)
+        df = df[~df.iloc[:, 0].str.startswith('#')] # delete comment line
         df = df[0].str.split(expand=True)
         df = df[~df.duplicated(subset=[3, 4])] # delete same stn and comp code
-
-        # Delete stations without proper Voltage Amplification Ratio
-        flag31 = ~df.isna()[11] # None
-        flag32 = ~df[11].isin(["*"]) # *
-        flag3 = flag31 & flag32
-        df0 = df[flag3]
-        df3 = df[~flag3]
-        df = df0.copy()
-
-        df[11] = df[11].map(lambda x: int(float(x))) # fix class to int
         # print(df)
 
         # Delete stations without support component codes
@@ -63,7 +39,7 @@ class StationTable(object):
         # print(df)
 
         # print diff
-        diff_df = pd.concat([df0, df3, df1, df2])
+        diff_df = pd.concat([df1, df2])
         if len(diff_df.index) != 0:
             print("[Warn: NpzConverter ignores paticular stations in chtbl]: \n", diff_df)
 
@@ -115,6 +91,29 @@ class StationTable(object):
 
         self.stnlst = os.path.join(outdir, "stn.lst")
         lst0.to_csv(self.stnlst, sep=" ", header=None, index=None)
+
+    def add_corr(self, corr, outdir):
+        pass
+        # # func
+        # def add_corr(stn, df):
+        #     try:
+        #         corr_p = df.at[stn, 'corr_p']
+        #     except:
+        #         corr_p = 0
+        #     try:
+        #         corr_s = df.at[stn, 'corr_s']
+        #     except:
+        #         corr_s = 0
+        #     return (corr_p, corr_s)
+        #         corr_col = ['lon', 'lat', 'height', 'stn', 'PS-P', 'std', 'th_sed', 'ttp_sed', 'corr_p', 'tts_sed', 'corr_s']
+        # if corr is not None:
+        #     # add sedimentary correction
+        #     df_corr = pd.read_csv(corr, header=None)[0].str.split(expand=True)
+        #     df_corr.columns = corr_col
+        #     #['lon', 'lat', 'height', 'stn', 'PS-P', '読み取り標準偏差', '堆積層厚さ', '堆積層内P波走時', 'corr_p', '堆積層内S波走時', 'corr_s']
+        #     df_corr = df_corr.set_index('stn')
+        # else:
+        #     df_corr = pd.DataFrame(index=[], columns=corr_col)
         
     def tbl2realtbl(self, outdir):
         # read
@@ -124,6 +123,7 @@ class StationTable(object):
         # stn_list = list(set(df[3].values))
 
         # select and add columns
+        # lon, lat, net, id, unit, alt, corr_p, corr_s
         df = df[[3, 13, 14, 15]]
         df.columns = ['id', 'lat', 'lon', 'alt']
 
