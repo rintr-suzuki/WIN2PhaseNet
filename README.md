@@ -17,10 +17,9 @@
   For Windows, run "Git Bash" and use it to execute commands for following steps.
 
 * docker <br>
-  * Installation
+  * Installation <br>
   For Windows and macOS, install "Docker Desktop" and run it to activate docker. <br>
   https://docs.docker.com/get-docker/ <br>
-
   For Linux, install "Docker Engine". <br>
   https://docs.docker.com/engine/install/ <br>
 
