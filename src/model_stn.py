@@ -1,6 +1,12 @@
 import os
 import pandas as pd
 
+import codecs
+## for test to print shift-jis ##
+# import sys
+# import io
+# sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
 class StationTable(object):
     def __init__(self, chtbl0, stnlst0):
         self.chtbl0 = chtbl0
@@ -17,10 +23,28 @@ class StationTable(object):
     def screeningTbl(self, outdir):
         # read
         # print(self.chtbl0)
-        df = pd.read_csv(self.chtbl0, header=None)
-        df = df[~df.iloc[:, 0].str.startswith('#')] # delete comment line
+        ## read file
+        meta_list = []
+        with codecs.open(self.chtbl0, 'r', 'utf-8', 'replace') as file:
+            for raw in file:
+                columns = raw.split()[:18]
+                meta = " ".join(columns)
+                if not meta.startswith('#'): # delete comment line
+                    meta_list.append(meta)
+        df = pd.DataFrame({0: meta_list})
+
         df = df[0].str.split(expand=True)
         df = df[~df.duplicated(subset=[3, 4])] # delete same stn and comp code
+
+        # Delete stations without proper Voltage Amplification Ratio
+        flag31 = ~df.isna()[11] # None
+        flag32 = ~df[11].isin(["*"]) # *
+        flag3 = flag31 & flag32
+        df0 = df[flag3]
+        df3 = df[~flag3]
+        df = df0.copy()
+
+        df[11] = df[11].map(lambda x: int(float(x))) # fix class to int
         # print(df)
 
         # Delete stations without support component codes
@@ -39,7 +63,7 @@ class StationTable(object):
         # print(df)
 
         # print diff
-        diff_df = pd.concat([df1, df2])
+        diff_df = pd.concat([df3, df1, df2])
         if len(diff_df.index) != 0:
             print("[Warn: NpzConverter ignores paticular stations in chtbl]: \n", diff_df)
 
