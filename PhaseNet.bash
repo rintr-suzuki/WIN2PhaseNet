@@ -22,7 +22,7 @@ if [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "
 fi
 
 ## set config
-docker_head="sudo"; docker_head_images="sudo"
+docker_head=""; docker_head_images=""
 workdir=`pwd`; arg_head=""
 
 if [[ $OSname == "Windows" ]]; then

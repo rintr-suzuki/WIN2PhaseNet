@@ -14,20 +14,28 @@
 
 * (Only required for Windows) Git Bash <br>
   https://gitforwindows.org/ <br>
-  For Windows, run "Git Bash" as administrator and use it to execute commands for following steps.
+  For Windows, run "Git Bash" and use it to execute commands for following steps.
 
 * docker <br>
+  * Installation
   For Windows and macOS, install "Docker Desktop" and run it to activate docker. <br>
   https://docs.docker.com/get-docker/ <br>
 
   For Linux, install "Docker Engine". <br>
   https://docs.docker.com/engine/install/ <br>
+
+  * (Only required for Linux) Create the docker group and add your user <br>
+  https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user <br>
+
+  * Verify installation <br>
     ```
-    # Installation of docker (e.g. Ubuntu22.04)
-    $ sudo apt-get update
-    $ sudo apt-get install docker
-    $ sudo docker -v # confirm installation
+    $ docker run hello-world
+    ...
+    Hello from Docker!
+    This message shows that your installation appears to be working correctly.
+    ...
     ```
+
 ## Usage
 * Installation
   ```
