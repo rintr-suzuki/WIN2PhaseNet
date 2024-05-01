@@ -87,7 +87,8 @@ $ ./WIN2PhaseNet.bash --mode cont [--output_length OUTPUT_LENGTH] [--tbl2lst] [-
 
 ### 4. Execute PhaseNet prediction
 This program **NOT** contains PhaseNet but show how to use PhaseNet briefly. <br>
-"npz waveform files" and "npz waveform list" made by `cont` mode of WIN2PhaseNet are required in advance.
+"npz waveform files" and "npz waveform list" made by `cont` mode of WIN2PhaseNet are required in advance. <br>
+Note that PhaseNet container runs with **--security-opt seccomp:unconfined** option.
 
 ```
 # Clone PhaseNet and pull docker image at first. (only once) *3

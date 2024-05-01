@@ -54,7 +54,7 @@ if $docker_head_images docker ps --format '{{.Names}}' | grep -q -x "$container_
 fi
 
 ## run container
-$docker_head docker run -itd --rm \
+$docker_head docker run -itd --rm --security-opt seccomp:unconfined \
 $volume \
 --name $container_name \
 $image_name:$tag_name
