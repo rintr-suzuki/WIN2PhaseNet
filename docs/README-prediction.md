@@ -70,6 +70,8 @@ Detailed usage for PhaseNet prediction
   | `[--tbl2lst]` | automatically set all the stations in the channel table as a station list |
   | `[--rotation]` | add rotation process for S-net data |
   | `[--filter]` | add band-pass filter process |
+  | `[--disable_winext]` | if set, do not check extention of WIN waveform files (default: checking enabled) |
+  | `[--winext WINEXT]` | extention of WIN waveform files (default: .cnt) |
 
 * Use `-h` option for the detailed information of all other options.
 
@@ -77,7 +79,7 @@ Detailed usage for PhaseNet prediction
 ```
 # Pull docker image (only once), run the 'win2npz' container and then execute WIN2PhaseNet on the container environment. *3
 # Stop and delete the container environment after execution is complete.
-$ ./WIN2PhaseNet.bash --mode cont [--output_length OUTPUT_LENGTH] [--tbl2lst] [--rotation] [--filter]
+$ ./WIN2PhaseNet.bash --mode cont [--output_length OUTPUT_LENGTH] [--tbl2lst] [--rotation] [--filter] [--disable_winext] [--winext WINEXT]
 # e.g. 
 # $ ./WIN2PhaseNet.bash --mode cont # with both 'stn.lst' and 'stn.tbl'
 # $ ./WIN2PhaseNet.bash --mode cont --tbl2lst # without 'stn.lst' (only 'stn.tbl')

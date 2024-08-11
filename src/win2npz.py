@@ -14,7 +14,7 @@ def read_args():
    # input information
    parser.add_argument('--list', '-l', help='[train, test] file path of pick list')
    parser.add_argument('--indir', default='data', help='path of input directory for WIN waveform files (default: data)')
-   parser.add_argument('--disable_winext', action='store_true', help='if set, do not check WIN waveform files (default: enable)')
+   parser.add_argument('--disable_winext', action='store_true', help='if set, do not check extention of WIN waveform files (default: checking enabled)')
    parser.add_argument('--winext', default='.cnt', help='extention of WIN waveform files (default: .cnt)')
 
    # output information
