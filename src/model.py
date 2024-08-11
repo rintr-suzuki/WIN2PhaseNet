@@ -67,7 +67,12 @@ class NpzStationWavedata(NpzWavedata):
         npzdata = []
         for id, fname in zip(stnlist, npzConverter.outfiles[filetime]):
             ## load
-            meta = load_npz(fname)
+            try:
+                meta = load_npz(fname)
+            except ValueError as e:
+                meta = np.zeros((100, 3))
+                print("[NpzStationWavedata.__init__]:[WARN] load npz failed", fname, "\n", e)
+
             if np.all(meta[-100:, :] == 0):
                 print("[NpzStationWavedata.__init__]:[WARN] some data filled with 0. file =", fname)
 
