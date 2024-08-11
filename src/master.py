@@ -28,6 +28,8 @@ class Config(object):
 
         ## init input files
         self.files = glob.glob(self.indir + "/*")
+        if not self.disable_winext:
+            self.files = [file for file in self.files if file.endswith(self.winext)]
 
         ## set tmpdir
         self.tmpdir = ".tmp"
