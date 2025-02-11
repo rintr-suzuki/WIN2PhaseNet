@@ -60,6 +60,9 @@ class Config(object):
         ## keep outdir name
         self.outdir0 = copy.deepcopy(self.outdir)
 
+        ## list to remove tmp dir
+        self.rmDirList = []
+
     def set_fname(self, fname):
         self.fname = fname
         self.baseFname = os.path.basename(self.fname)
@@ -68,6 +71,7 @@ class Config(object):
         try:
             self.stndir = os.path.join(".tmp", self.baseFname, "stn")
             os.makedirs(self.stndir, exist_ok=True)
+            self.rmDirList.append(self.stndir)
         except Exception as e:
             # if fname is not set yet
             print("[Error]:", e)           
@@ -76,9 +80,11 @@ class Config(object):
         try:
             if flag:
                 self.outdir = self.outdir0
+                self.outnpzdir = os.path.join(self.outdir, "npz")
             else:
                 self.outdir = os.path.join(".tmp", self.baseFname, "out")
-            self.outnpzdir = os.path.join(self.outdir, "npz")
+                self.outnpzdir = os.path.join(self.outdir, "npz")
+                self.rmDirList.append(self.outnpzdir)
             os.makedirs(self.outnpzdir, exist_ok=True)
         except Exception as e:
             # if flag is False and fname is not set yet
@@ -120,6 +126,7 @@ class MasterProcess(object):
             exit()
 
     def rm_tmp(self):
+        # remove tmp file
         ext = ["lst", "tbl", "npz"]
 
         l = []
@@ -128,3 +135,8 @@ class MasterProcess(object):
         for file in l:
             os.remove(file)
             # print(file)
+
+        # remove tmp dir
+        for fname, config in self.configDict.items():
+            for dir in config.rmDirList:
+                os.removedirs(dir)
