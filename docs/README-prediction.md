@@ -7,7 +7,7 @@ Detailed usage for PhaseNet prediction
 
   | Key | Description |
   | --- | --- |
-  | `data` | - continuous waveform data of one station <br> - dataShape: **(6000, 3)** # means 60 seconds (100 Hz) / 3 compornent *2 <br> - You can change data length with `--output_length` option. |
+  | `data` | - continuous waveform data of one station <br> - dataShape: **(6000, 3)** # means 60 seconds (100 Hz) / 3 component *2 <br> - You can change data length with `--output_length` option. |
   | `t0` | start time of waveform file |
   | `sta_id` | station code |
 
@@ -21,16 +21,16 @@ Detailed usage for PhaseNet prediction
   * **Only 100 Hz data is acceptable.**
   * NIED provides 60 seconds of WIN waveform files. <br>
     For the detailed information, see https://hinetwww11.bosai.go.jp/auth/download/cont/?LANG=en
-  * Make directry named `WIN2PhaseNet/data` and put the files there. <br>
+  * Make directory named `WIN2PhaseNet/data` and put the files there. <br>
     You can change the path with `--indir` option.
 
 * channel table: correspondence Table of stations and their code
   * format: txt format <br>
     For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.ja/win.html (only in Japanese).
   * **Only support the following "component code (column [5])"**. <br>
-    -Vertical compornent: EW,E,X,VX <br>
-    -Horizontal compornent 1: NS,N,Y,VY <br>
-    -Horizontal compornent 2: UD,U,Z,VZ
+    -Vertical component: EW,E,X,VX <br>
+    -Horizontal component 1: NS,N,Y,VY <br>
+    -Horizontal component 2: UD,U,Z,VZ
   * NIED provides channel table at the same time when downloading WIN waveform files. <br>
     For the detailed information, see https://hinetwww11.bosai.go.jp/auth/download/cont/?LANG=en
   * **"Voltage amplification ratio (column [12])" is modified to the int value.**

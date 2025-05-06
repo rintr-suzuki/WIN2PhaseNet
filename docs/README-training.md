@@ -14,7 +14,7 @@ $ ./WIN2PhaseNet.bash -m train -l picks.csv
 
   | Key | Description |
   | --- | --- |
-  | `data` | - event waveform data of one event / one station <br> - dataShape: **(9000, 3)** # means 90 seconds (100Hz) / 3 compornent *2 <br> - Data starts **30 seconds** before of `itp`. |
+  | `data` | - event waveform data of one event / one station <br> - dataShape: **(9000, 3)** # means 90 seconds (100Hz) / 3 component *2 <br> - Data starts **30 seconds** before of `itp`. |
   | `itp` | the data point of **P phase** from the start of each npz waveform file |
   | `its` | the data point of **S phase** from the start of each npz waveform file |
   | `t0` | start time of waveform file |
@@ -27,7 +27,7 @@ $ ./WIN2PhaseNet.bash -m train -l picks.csv
 
   | Key | Description |
   | --- | --- |
-  | `data` | - event waveform data of one event / one station <br> - dataShape: **(3000, 3)** # means 30 seconds (100Hz) / 3 compornent *2 <br> - Data starts **1 seconds** before of `itp`. |
+  | `data` | - event waveform data of one event / one station <br> - dataShape: **(3000, 3)** # means 30 seconds (100Hz) / 3 component *2 <br> - Data starts **1 seconds** before of `itp`. |
   | `itp` | the data point of **P phase** from the start of each npz waveform file |
   | `its` | the data point of **S phase** from the start of each npz waveform file |
   | `t0` | start time of waveform file |
@@ -42,7 +42,7 @@ $ ./WIN2PhaseNet.bash -m train -l picks.csv
     For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.en/winformat.html
   * **Only 100 Hz data is acceptable.**
   * **Recommend >=180 seconds of data. Otherwise part of data will be filled with 0.** *2
-  * Make directry named `WIN2PhaseNet/data` and put the files there. <br>
+  * Make directory named `WIN2PhaseNet/data` and put the files there. <br>
     You can change the path with `--indir` option.
 
 * pick list: a list of P or S phase for each "event WIN waveform file"
@@ -63,9 +63,9 @@ $ ./WIN2PhaseNet.bash -m train -l picks.csv
   * format: txt format <br>
     For the detailed information, see https://wwweic.eri.u-tokyo.ac.jp/WIN/man.ja/win.html (only in Japanese).
   * **Only support the following "component code (column [5])"**. <br>
-    -Vertical compornent: EW,E,X,VX <br>
-    -Horizontal compornent 1: NS,N,Y,VY <br>
-    -Horizontal compornent 2: UD,U,Z,VZ
+    -Vertical component: EW,E,X,VX <br>
+    -Horizontal component 1: NS,N,Y,VY <br>
+    -Horizontal component 2: UD,U,Z,VZ
   * **"Voltage amplification ratio (column [12])" is modified to the int value.**
   * NIED provides channel table at the same time when downloading WIN waveform files. <br>
     For the detailed information, see https://hinetwww11.bosai.go.jp/auth/download/cont/?LANG=en
