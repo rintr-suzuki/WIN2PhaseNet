@@ -1,6 +1,8 @@
 # WIN2PhaseNet
 ## Summary
 
+[![DOI](https://img.shields.io/badge/DOI-10.1126%2Fscience.adt6389-blue)](https://doi.org/10.1126/science.adt6389)
+
 ![](docs/assets/WIN2NPZ_overview.png)
  
 * Tool to make data for prediction and training of PhaseNet (Zhu and Beroza, 2019) from WIN/WIN32 (hereafter just 'WIN') format waveform file and pick list.
