@@ -1,7 +1,12 @@
 # WIN2PhaseNet
-## Summary
+## Related Publication
 
 [![DOI](https://img.shields.io/badge/DOI-10.1126%2Fscience.adt6389-blue)](https://doi.org/10.1126/science.adt6389)
+
+If you use this code or data, please cite the following paper: <br>
+Rintaroh Suzuki _et al._, The forearc seismic belt: A fluid pathway constraining down-dip megathrust earthquake rupture. _Science_ **389**, 190-194 (2025). https://doi.org/10.1126/science.adt6389
+
+## Summary
 
 ![](docs/assets/WIN2NPZ_overview.png)
  
